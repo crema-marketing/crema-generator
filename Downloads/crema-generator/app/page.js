@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 export default function Home() {
   useEffect(() => {
-    // Inject Tailwind config
     const tw = document.createElement("script");
     tw.src = "https://cdn.tailwindcss.com?plugins=forms,container-queries";
     tw.onload = () => {
@@ -31,7 +30,6 @@ export default function Home() {
         }
       `;
       document.head.appendChild(cfg);
-      // Run page scripts after Tailwind loaded
       const s = document.createElement("script");
       s.textContent = `
 // ============================================================
@@ -60,6 +58,7 @@ const CAT_CFG = {
   F:{ label:'크리마 뉴스', icon:'newspaper', sub:'이달의 소식을 입력해주세요' },
   G:{ label:'릴리즈 노트', icon:'rocket_launch', sub:'업데이트 내용을 입력해주세요' },
   I:{ label:'이커머스 인사이트', icon:'trending_up', sub:'이커머스 트렌드/인사이트 아티클 정보를 입력해주세요' },
+  FREE:{ label:'자유 양식', icon:'draw', sub:'형식에 구애받지 않고 자유롭게 콘텐츠 재료를 입력해주세요' },
 };
 
 // ============================================================
@@ -70,27 +69,29 @@ const FIELDS = {
     {id:'brand',label:'브랜드명',type:'text',ph:'예) 아로마티카',req:true},
     {id:'transcript',label:'인터뷰 녹취록 또는 Q&A 원문',type:'ta',ph:'인터뷰 내용을 붙여넣어 주세요.\\n없으면 브랜드에 대해 알고 있는 내용을 입력해 주세요.',req:true,rows:9},
     {id:'fmt',label:'콘텐츠 형식',type:'sel',opts:['스토리텔링 (에디터 내러티브)','Q&A (질문-답변 형식)'],req:true},
-    {id:'products',label:'도입한 크리마 솔루션 (해당하는 것 모두)',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
+    {id:'products',label:'도입한 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
     {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 자사몰 CRM 전략, 고객 커뮤니티'},
   ],
   B:[
     {id:'fname',label:'기능명',type:'text',ph:'예) AI 리뷰 요약',req:true},
     {id:'fdesc',label:'기능 설명 및 주요 내용',type:'ta',ph:'기능의 작동 방식, 노출 위치, 설정 경로 등을 설명해 주세요.',req:true,rows:6},
     {id:'benefit',label:'고객이 얻는 핵심 효과',type:'text',ph:'예) 리뷰 읽는 시간 절약, 구매 전환율 향상'},
+    {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
     {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) AI 리뷰 요약, 쇼핑몰 리뷰 관리'},
   ],
   C:[
     {id:'topic',label:'아티클 주제',type:'text',ph:'예) 크리마 리뷰 AI 분석 기능 활용법',req:true},
-    {id:'tipn',label:'팁 개수',type:'sel',opts:['3가지','4가지','5가지'],req:true},
-    {id:'feature',label:'소개할 크리마 기능 또는 서비스',type:'text',ph:'예) 리뷰 AI 요약, 리뷰 노출 설정'},
+    {id:'feature',label:'소개할 크리마 기능 또는 서비스',type:'text',ph:'예) 리뷰 AI 요약, 리뷰 노출 설정',req:true},
+    {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
     {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 크리마 리뷰 활용법, AI 리뷰 분석'},
-    {id:'extra',label:'포함할 사례 또는 참고 자료 (선택)',type:'ta',ph:'고객사 사례, 데이터 등을 입력해 주세요.',rows:4},
+    {id:'extra',label:'포함할 사례 또는 참고 자료',type:'ta',ph:'고객사 사례, 데이터 등을 입력해 주세요.',rows:4},
   ],
   D:[
     {id:'topic',label:'아티클 주제',type:'text',ph:'예) 이커머스 리뷰 데이터로 보는 소비 트렌드',req:true},
     {id:'angle',label:'주요 관점 또는 논지',type:'ta',ph:'이 글에서 가장 강조하고 싶은 인사이트나 방향을 설명해 주세요.',req:true,rows:4},
+    {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
     {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 이커머스 리뷰 트렌드, 소비자 구매 패턴'},
-    {id:'data',label:'포함할 데이터 또는 수치 (선택)',type:'ta',ph:'크리마 보유 통계, 연구 결과, 사례 수치 등을 입력해 주세요.',rows:4},
+    {id:'data',label:'포함할 데이터 또는 수치',type:'ta',ph:'크리마 보유 통계, 연구 결과, 사례 수치 등을 입력해 주세요.',rows:4},
   ],
   E:[
     {id:'name',label:'인터뷰이 이름',type:'text',ph:'예) 김지수',req:true},
@@ -101,19 +102,26 @@ const FIELDS = {
   F:[
     {id:'ym',label:'연/월',type:'text',ph:'예) 2025년 3월',req:true},
     {id:'clients',label:'신규 고객사 목록',type:'ta',ph:'브랜드명, 업종, 자사몰 URL을 한 줄씩\\n예) 아로마티카, 뷰티, https://aromatica.co.kr',req:true,rows:6},
-    {id:'events',label:'이달의 내부 소식 (세미나·행사 등, 선택)',type:'ta',ph:'특별한 소식이 있으면 입력해 주세요.',rows:3},
+    {id:'events',label:'이달의 내부 소식',type:'ta',ph:'세미나, 행사 등 특별한 소식이 있으면 입력해 주세요.',rows:3},
   ],
   G:[
     {id:'ym',label:'연/월',type:'text',ph:'예) 2025년 3월',req:true},
     {id:'updates',label:'업데이트 기능 목록',type:'ta',ph:'예)\\n[크리마 리뷰] AI 리뷰 요약 — 상품 상세 페이지 위젯 추가\\n[크리마 핏] 사이즈 필터 개선 — 체형 기반 필터 추가',req:true,rows:8},
-    {id:'setting',label:'설정 경로 안내 (선택)',type:'ta',ph:'관리자 페이지 설정 방법을 알고 있다면 입력해 주세요.',rows:4},
+    {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
+    {id:'setting',label:'설정 경로 안내',type:'ta',ph:'관리자 페이지 설정 방법을 알고 있다면 입력해 주세요.',rows:4},
   ],
   I:[
     {id:'topic',label:'아티클 주제',type:'text',ph:'예) 2025 이커머스 리뷰 트렌드 분석',req:true},
     {id:'angle',label:'주요 관점 또는 논지',type:'ta',ph:'이 글에서 다루고 싶은 인사이트나 방향을 설명해 주세요.',req:true,rows:4},
-    {id:'tipn',label:'핵심 항목 개수',type:'sel',opts:['3가지','4가지','5가지','6가지'],req:true},
     {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 이커머스 트렌드, 자사몰 성장 전략'},
-    {id:'data',label:'포함할 데이터 또는 사례 (선택)',type:'ta',ph:'업계 통계, 사례, 수치 등이 있으면 입력해 주세요.',rows:4},
+    {id:'data',label:'포함할 데이터 또는 사례',type:'ta',ph:'업계 통계, 사례, 수치 등이 있으면 입력해 주세요.',rows:4},
+  ],
+  FREE:[
+    {id:'topic',label:'콘텐츠 주제 또는 제목 (안)',type:'text',ph:'예) 크리마 × OO 파트너십 발표, 여름 시즌 프로모션 안내',req:true},
+    {id:'purpose',label:'이 콘텐츠의 목적',type:'text',ph:'예) 신규 제휴 서비스 소개, 프로모션 참여 유도, 이벤트 안내'},
+    {id:'target',label:'타깃 독자',type:'text',ph:'예) 자사몰 운영자, 크리마 기존 고객사, 이커머스 마케터'},
+    {id:'content',label:'담고 싶은 주요 내용',type:'ta',ph:'핵심 메시지, 포함할 정보, 전달하고 싶은 포인트를 자유롭게 적어주세요.',req:true,rows:8},
+    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 이커머스 프로모션, 자사몰 마케팅'},
   ],
 };
 
@@ -121,21 +129,24 @@ const FIELDS = {
 // VIEW MANAGEMENT
 // ============================================================
 function show(v) {
-  ['cat','form','gen'].forEach(id => {
+  ['cat','form','gen','var'].forEach(id => {
     document.getElementById('view-'+id).classList.toggle('hidden', id!==v);
   });
   currentView = v;
+  const pb = document.getElementById('progress-bar');
+  if(pb) pb.style.display = (v==='var') ? 'none' : '';
   updateSteps(v);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function updateSteps(v) {
-  const active = v==='cat'?1 : v==='form'?2 : genMode==='outline'?3 : 4;
+  const active = v==='cat'?1 : v==='form'?2 : v==='gen'?(genMode==='outline'?3:4) : 4;
   const labels = ['카테고리 선택','콘텐츠 재료 입력','개요 확인','초안 완성'];
   for (let i=1; i<=4; i++) {
     const n = document.getElementById('s'+i+'n');
     const s = document.getElementById('s'+i);
     const l = document.getElementById('s'+i+'l');
+    if (!n) continue;
     l.textContent = labels[i-1];
     if (i < active) {
       s.className = 'step-btn flex items-center gap-2.5 px-4 py-2 rounded-full';
@@ -160,10 +171,31 @@ function updateSteps(v) {
 // PROGRESS BAR CLICK NAVIGATION
 // ============================================================
 function clickStep(n) {
-  const active = currentView==='cat'?1 : currentView==='form'?2 : genMode==='outline'?3 : 4;
-  if (n >= active) return; // can't go forward by clicking
+  const active = currentView==='cat'?1 : currentView==='form'?2 : currentView==='gen'?(genMode==='outline'?3:4) : 4;
+  if (n >= active) return;
   if (n===1) { tryGoBack('cat'); return; }
   if (n===2) { tryGoBack('form'); return; }
+  if (n===3 || n===4) { show('gen'); return; }
+}
+
+// 헤더에서 채널 베리에이션으로 바로 진입
+function goToVariationHome() {
+  const ta = document.getElementById('var-input');
+  const source = currentText || document.getElementById('content-display')?.innerText || '';
+  if(ta && source.trim()) ta.value = source.trim();
+  activeVarTab = 'home';
+  varTexts = { home:'', naver:'', brunch:'' };
+  varBusy = { naver:false, brunch:false };
+  ['naver','brunch'].forEach(ch => {
+    document.getElementById('vtab-badge-'+ch)?.classList.add('hidden');
+    document.getElementById('vtab-loading-'+ch)?.classList.add('hidden');
+    const el = document.getElementById('vtab-'+ch+'-content');
+    if(el) el.innerHTML = \`<div class="flex flex-col items-center justify-center h-64 text-on-surface-variant gap-3">
+      <span class="material-symbols-outlined text-4xl opacity-30">\${ch==='naver'?'article':'edit_note'}</span>
+      <p class="text-sm">탭이 활성화되면 자동으로 변환이 시작돼요</p></div>\`;
+  });
+  _setActiveTab('home');
+  show('var');
 }
 
 // Back with alert if form has data
@@ -207,7 +239,7 @@ function renderForm() {
   const cfg = CAT_CFG[cat]||CAT_CFG.D;
   const flds = [...(FIELDS[cat]||FIELDS.D)];
   // Append doc link field to all categories
-  flds.push({id:'doclink',label:'참고 문서 링크 (선택)',type:'url',ph:'https://... 제너레이터가 초안 작성 시 참고합니다.'});
+  flds.push({id:'doclink',label:'참고 문서 링크',type:'url',ph:'https://... 제너레이터가 초안 작성 시 참고합니다.'});
   document.getElementById('form-icon').textContent = cfg.icon;
   document.getElementById('form-title').textContent = cfg.label;
   document.getElementById('form-subtitle').textContent = cfg.sub;
@@ -334,6 +366,9 @@ function refreshGenUI() {
   const nb=document.getElementById('next-btn');
   nb.innerHTML=isOut?'본문 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>':'✓ 초안 완성';
   nb.disabled=true;
+  // 베리에이션 버튼: full 모드 시작 즉시 노출, outline 모드엔 숨김
+  const vb = document.getElementById('var-goto-btn');
+  if(vb) { if(isOut) vb.classList.add('hidden'); else vb.classList.remove('hidden'); }
   updateSteps('gen');
 }
 
@@ -617,6 +652,7 @@ async function sendChat() {
       method:'POST',
       body: JSON.stringify({
         max_tokens: 200,
+        system: '너는 친절한 에디터야. 반드시 해요체로 답변해.',
         messages: [{role:'user', content:\`"\${msg}" 수정 요청을 반영했어. 무엇을 어떻게 바꿨는지 2~3문장으로 간단히 요약해줘.\`}],
         stream: false,
       }),
@@ -720,8 +756,181 @@ function mdRender(text) {
 
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
+// ============================================================
+// VARIATION — 탭 기반
+// ============================================================
+let activeVarTab = 'home';
+let varTexts = { home: '', naver: '', brunch: '' };
+let varBusy = { naver: false, brunch: false };
+
+const VAR_PROMPTS = {
+  naver: \`이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목과 본문에 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 친근한 이모지도 적절히 섞어줘.\`,
+  brunch: \`이 글을 브런치 감성에 맞게 '에세이 톤'으로 다시 써줘. 기능 설명보다는 이커머스 마케터로서 겪는 '고민과 통찰'에 초점을 맞추고, 전문적인 인사이트를 담담한 어조(~다, ~했다)로 풀어내 줘.\`,
+};
+
+const VAR_DESCS = {
+  home: '홈페이지 블로그 최종안을 붙여 넣어주세요. 네이버 블로그 / 브런치 탭을 클릭하면 즉시 변환이 시작돼요.',
+  naver: '키워드 반복 빈도↑ · 문단 세분화 · 모바일 가독성 · 이모지 추가',
+  brunch: '에세이 톤(~다, ~했다) · 고민과 통찰 중심 · 담담한 전문가 어조',
+};
+
+function goToVariation() {
+  const ta = document.getElementById('var-input');
+  const source = currentText || document.getElementById('content-display')?.innerText || '';
+  if(ta && source.trim() && !ta.value.trim()) ta.value = source.trim();
+  // Reset tab state
+  activeVarTab = 'home';
+  varTexts = { home: '', naver: '', brunch: '' };
+  varBusy = { naver: false, brunch: false };
+  // Reset tab UI
+  ['naver','brunch'].forEach(ch => {
+    document.getElementById('vtab-badge-'+ch)?.classList.add('hidden');
+    document.getElementById('vtab-loading-'+ch)?.classList.add('hidden');
+    const el = document.getElementById('vtab-'+ch+'-content');
+    if(el) el.innerHTML = \`<div class="flex flex-col items-center justify-center h-64 text-on-surface-variant gap-3">
+      <span class="material-symbols-outlined text-4xl opacity-30">\${ch==='naver'?'article':'edit_note'}</span>
+      <p class="text-sm">탭이 활성화되면 자동으로 변환이 시작돼요</p></div>\`;
+  });
+  _setActiveTab('home');
+  show('var');
+}
+
+function switchVarTab(ch) {
+  if(activeVarTab === ch) return;
+  _setActiveTab(ch);
+  // If naver/brunch and not yet generated → start generation
+  if(ch !== 'home' && !varTexts[ch] && !varBusy[ch]) {
+    const src = document.getElementById('var-input')?.value.trim();
+    if(!src) { alert('홈페이지 블로그 탭에서 최종안을 먼저 입력해 주세요.'); _setActiveTab('home'); return; }
+    _runVariation(ch, src);
+  }
+}
+
+function _setActiveTab(ch) {
+  activeVarTab = ch;
+  // Panel visibility
+  ['home','naver','brunch'].forEach(t => {
+    document.getElementById('vtab-'+t)?.classList.toggle('hidden', t !== ch);
+  });
+  // Tab button styles
+  ['home','naver','brunch'].forEach(t => {
+    const btn = document.getElementById('vtab-btn-'+t);
+    if(!btn) return;
+    if(t === ch) {
+      btn.className = btn.className
+        .replace('border-transparent text-on-surface-variant hover:text-primary hover:bg-primary/3', '')
+        .replace('border-transparent','')
+        + ' border-b-2 border-primary text-primary bg-primary/4';
+      btn.className = btn.className.replace(/\\s+/g,' ').trim();
+      // Normalize
+      btn.style.borderBottomWidth = '2px';
+      btn.style.borderBottomColor = '#3182f6';
+      btn.style.color = '#3182f6';
+      btn.style.background = 'rgba(49,130,246,.04)';
+    } else {
+      btn.style.borderBottomWidth = '2px';
+      btn.style.borderBottomColor = 'transparent';
+      btn.style.color = '';
+      btn.style.background = '';
+    }
+  });
+  // Desc & action buttons
+  document.getElementById('vtab-desc').textContent = VAR_DESCS[ch];
+  const regenBtn = document.getElementById('vtab-regen-btn');
+  if(regenBtn) regenBtn.classList.toggle('hidden', ch === 'home');
+}
+
+async function _runVariation(ch, inputText) {
+  varBusy[ch] = true;
+  const contentEl = document.getElementById('vtab-'+ch+'-content');
+  const loadingEl = document.getElementById('vtab-loading-'+ch);
+  const badgeEl = document.getElementById('vtab-badge-'+ch);
+
+  loadingEl?.classList.remove('hidden');
+  badgeEl?.classList.add('hidden');
+  contentEl.innerHTML = '<div class="flex items-center gap-3 text-on-surface-variant py-8"><div><span class="dot-bounce"></span><span class="dot-bounce"></span><span class="dot-bounce"></span></div><span class="text-sm">변환하고 있어요...</span></div>';
+
+  try {
+    const res = await fetch('/api/variation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        max_tokens: 3500,
+        messages: [{ role: 'user', content: \`다음 원고를 아래 지침에 따라 변환해줘.\\n\\n지침: \${VAR_PROMPTS[ch]}\\n\\n원고:\\n\${inputText}\` }],
+        stream: true,
+      }),
+    });
+    if(!res.ok) throw new Error('API 오류 '+res.status);
+
+    contentEl.innerHTML = '';
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let full = '', buf = '', renderPending = false;
+
+    const scheduleRender = () => {
+      if(renderPending) return;
+      renderPending = true;
+      setTimeout(() => {
+        renderPending = false;
+        contentEl.innerHTML = mdRender(full);
+      }, 120);
+    };
+
+    while(true) {
+      const { done, value } = await reader.read();
+      if(done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\\n'); buf = lines.pop();
+      for(const line of lines) {
+        if(!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if(raw==='[DONE]') continue;
+        try {
+          const d = JSON.parse(raw);
+          if(d.type==='content_block_delta' && d.delta?.text) { full += d.delta.text; scheduleRender(); }
+        } catch{}
+      }
+    }
+    contentEl.innerHTML = mdRender(full);
+    varTexts[ch] = full;
+    badgeEl?.classList.remove('hidden');
+  } catch(e) {
+    contentEl.innerHTML = \`<div class="p-4 bg-red-50 rounded-xl text-red-600 text-sm">오류: \${escH(e.message)}<br>다시 변환 버튼을 눌러주세요.</div>\`;
+  } finally {
+    varBusy[ch] = false;
+    loadingEl?.classList.add('hidden');
+  }
+}
+
+function regenCurrentTab() {
+  if(activeVarTab === 'home') return;
+  const src = document.getElementById('var-input')?.value.trim();
+  if(!src) { alert('홈페이지 블로그 탭에서 최종안을 먼저 입력해 주세요.'); return; }
+  varTexts[activeVarTab] = '';
+  _runVariation(activeVarTab, src);
+}
+
+function copyCurrentTab() {
+  let text = '';
+  if(activeVarTab === 'home') {
+    text = document.getElementById('var-input')?.value || '';
+  } else {
+    text = varTexts[activeVarTab] || document.getElementById('vtab-'+activeVarTab+'-content')?.innerText || '';
+  }
+  if(!text.trim()) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const b = document.getElementById('vtab-copy-btn');
+    b.innerHTML = '<span class="material-symbols-outlined text-sm">check</span> 복사됨';
+    b.classList.add('text-green-600','border-green-300');
+    setTimeout(() => {
+      b.innerHTML = '<span class="material-symbols-outlined text-sm">content_copy</span> 복사';
+      b.classList.remove('text-green-600','border-green-300');
+    }, 2000);
+  });
+}
+
 // Init
-updateSteps('cat');
+show('cat');
 `;
       document.body.appendChild(s);
     };
@@ -785,15 +994,21 @@ textarea.form-input{resize:vertical}
         CREMA Contents Generator
       </h1>
       <nav class="hidden md:flex items-center gap-1 bg-surface-container-low p-1 rounded-full">
-        <a class="px-4 py-1.5 rounded-full bg-white text-primary font-bold text-sm shadow-sm" href="#">제너레이터</a>
-        <a class="px-4 py-1.5 rounded-full text-on-surface-variant font-medium text-sm hover:bg-white/50 transition-colors" href="#">나의 보관함</a>
+        <a onclick="resetAll()" class="px-4 py-1.5 rounded-full bg-white text-primary font-bold text-sm shadow-sm cursor-pointer flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size:15px">edit_square</span>
+          콘텐츠 제너레이터
+        </a>
+        <a onclick="goToVariationHome()" class="px-4 py-1.5 rounded-full text-on-surface-variant font-medium text-sm hover:bg-white/50 transition-colors cursor-pointer flex items-center gap-1.5">
+          <span class="material-symbols-outlined" style="font-size:15px">tune</span>
+          채널 베리에이션
+        </a>
       </nav>
     </div>
   </div>
 </header>
 
 <!-- ===== PROGRESS BAR ===== -->
-<div class="fixed top-16 w-full z-40 bg-white/95 backdrop-blur-sm border-b border-outline-variant py-3">
+<div id="progress-bar" class="fixed top-16 w-full z-40 bg-white/95 backdrop-blur-sm border-b border-outline-variant py-3">
   <div class="flex items-center justify-center gap-2">
 
     <div id="s1" onclick="clickStep(1)" class="step-btn flex items-center gap-2.5 px-4 py-2 rounded-full">
@@ -939,15 +1154,15 @@ textarea.form-input{resize:vertical}
 
   </div>
 
-  <!-- Draft CTA -->
-  <div class="mt-16 p-10 bg-surface-container-low rounded-3xl flex items-center justify-between group cursor-pointer hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant">
+  <!-- 자유 양식 CTA -->
+  <div onclick="selectCat('FREE')" class="mt-16 p-10 bg-surface-container-low rounded-3xl flex items-center justify-between group cursor-pointer hover:bg-surface-container transition-all border border-transparent hover:border-primary/20">
     <div class="flex items-center gap-6">
-      <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
-        <span class="material-symbols-outlined text-2xl">history</span>
+      <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
+        <span class="material-symbols-outlined text-2xl">draw</span>
       </div>
       <div>
-        <p class="font-bold text-xl font-headline">임시 저장된 초안에서 이어하기</p>
-        <p class="text-on-surface-variant mt-1">이전에 작업하던 내용이 1개 있습니다.</p>
+        <p class="font-bold text-xl font-headline">카테고리 없이 자유롭게 작성하기</p>
+        <p class="text-on-surface-variant mt-1">프로모션, 제휴 서비스 소개 등 자유롭게 초안을 작성하세요.</p>
       </div>
     </div>
     <span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
@@ -1003,6 +1218,9 @@ textarea.form-input{resize:vertical}
           </button>
           <button id="copy-btn" onclick="copyContent()" class="flex items-center gap-1.5 px-4 py-2 bg-white border border-outline-variant rounded-full text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-all">
             <span class="material-symbols-outlined text-sm">content_copy</span> 복사
+          </button>
+          <button id="var-goto-btn" onclick="goToVariation()" class="hidden flex items-center gap-2 px-5 py-2 bg-white border border-primary text-primary font-bold rounded-full text-sm hover:bg-primary/5 transition-colors">
+            <span class="material-symbols-outlined text-sm">tune</span> 채널 베리에이션
           </button>
           <button id="next-btn" onclick="handleNext()" disabled class="flex items-center gap-2 px-5 py-2 bg-primary text-white font-bold rounded-full text-sm hover:bg-[#1b64da] transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
             본문 생성하기 <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -1115,15 +1333,93 @@ textarea.form-input{resize:vertical}
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer class="bg-white border-t border-outline-variant py-10">
-  <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-    <p class="text-sm text-on-surface-variant font-medium">© 2025 CREMA. All rights reserved.</p>
-    <div class="flex gap-6">
-      <a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">이용약관</a>
-      <a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">개인정보처리방침</a>
-      <a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">고객센터</a>
+<!-- ===== VIEW: VARIATION ===== -->
+<main id="view-var" class="hidden pt-40 pb-32 px-8 max-w-5xl mx-auto min-h-screen">
+  <button onclick="show('cat')" class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors mb-8 group">
+    <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+    <span class="text-sm font-medium">홈으로 돌아가기</span>
+  </button>
+
+  <!-- Tab bar -->
+  <div class="bg-white rounded-3xl editorial-shadow overflow-hidden">
+    <!-- Tab header -->
+    <div class="flex border-b border-outline-variant">
+
+      <button id="vtab-btn-home" onclick="switchVarTab('home')"
+        class="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 text-sm font-semibold transition-all border-b-2 border-primary text-primary bg-primary/4">
+        <span class="material-symbols-outlined text-base">home</span>
+        홈페이지 블로그
+      </button>
+
+      <button id="vtab-btn-naver" onclick="switchVarTab('naver')"
+        class="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 text-sm font-medium transition-all border-b-2 border-transparent text-on-surface-variant hover:text-primary hover:bg-primary/3">
+        <span class="material-symbols-outlined text-base">article</span>
+        네이버 블로그
+        <span id="vtab-badge-naver" class="hidden text-xs bg-primary text-white px-1.5 py-0.5 rounded-full">완료</span>
+        <span id="vtab-loading-naver" class="hidden"><span class="dot-bounce" style="width:5px;height:5px"></span><span class="dot-bounce" style="width:5px;height:5px;animation-delay:.2s"></span><span class="dot-bounce" style="width:5px;height:5px;animation-delay:.4s"></span></span>
+      </button>
+
+      <button id="vtab-btn-brunch" onclick="switchVarTab('brunch')"
+        class="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 text-sm font-medium transition-all border-b-2 border-transparent text-on-surface-variant hover:text-primary hover:bg-primary/3">
+        <span class="material-symbols-outlined text-base">edit_note</span>
+        브런치
+        <span id="vtab-badge-brunch" class="hidden text-xs bg-primary text-white px-1.5 py-0.5 rounded-full">완료</span>
+        <span id="vtab-loading-brunch" class="hidden"><span class="dot-bounce" style="width:5px;height:5px"></span><span class="dot-bounce" style="width:5px;height:5px;animation-delay:.2s"></span><span class="dot-bounce" style="width:5px;height:5px;animation-delay:.4s"></span></span>
+      </button>
+
     </div>
+
+    <!-- Tab content area -->
+    <div class="p-8">
+
+      <!-- Top action bar -->
+      <div class="flex items-center justify-between mb-6">
+        <p id="vtab-desc" class="text-sm text-on-surface-variant">홈페이지 블로그 최종안을 수정하거나 그대로 두세요. 탭을 클릭하면 즉시 변환해드려요.</p>
+        <div class="flex gap-2">
+          <button id="vtab-regen-btn" onclick="regenCurrentTab()" class="hidden flex items-center gap-1.5 px-4 py-2 bg-white border border-outline-variant rounded-full text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-sm">refresh</span> 다시 변환
+          </button>
+          <button id="vtab-copy-btn" onclick="copyCurrentTab()"
+            class="flex items-center gap-1.5 px-4 py-2 bg-white border border-outline-variant rounded-full text-sm font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-sm">content_copy</span> 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- HOME tab -->
+      <div id="vtab-home" class="vtab-panel">
+        <textarea id="var-input" class="form-input" rows="20"
+          placeholder="홈페이지 블로그 최종안을 여기에 붙여넣어 주세요.&#10;네이버 블로그 / 브런치 탭을 클릭하면 즉시 변환이 시작돼요."></textarea>
+      </div>
+
+      <!-- NAVER tab -->
+      <div id="vtab-naver" class="vtab-panel hidden">
+        <div id="vtab-naver-content" class="md-content min-h-[400px]">
+          <div class="flex flex-col items-center justify-center h-64 text-on-surface-variant gap-3">
+            <span class="material-symbols-outlined text-4xl opacity-30">article</span>
+            <p class="text-sm">탭이 활성화되면 자동으로 변환이 시작돼요</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRUNCH tab -->
+      <div id="vtab-brunch" class="vtab-panel hidden">
+        <div id="vtab-brunch-content" class="md-content min-h-[400px]">
+          <div class="flex flex-col items-center justify-center h-64 text-on-surface-variant gap-3">
+            <span class="material-symbols-outlined text-4xl opacity-30">edit_note</span>
+            <p class="text-sm">탭이 활성화되면 자동으로 변환이 시작돼요</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t border-outline-variant py-8">
+  <div class="max-w-7xl mx-auto px-8 flex justify-center">
+    <p class="text-sm text-on-surface-variant font-medium">© 2025 CREMA. All rights reserved.</p>
   </div>
 </footer>
 

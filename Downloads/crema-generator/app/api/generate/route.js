@@ -18,7 +18,8 @@ SEO: H1에 키워드 포함. 첫 문단 키워드 1회+. 마지막에 [메타 �
 [E]크리마인터뷰: H3 Q)포맷. 구어체. 흐름=자기소개→역할→프로젝트→역량→문화→목표→지원자에게
 [F]크리마뉴스: 계절감 오프너. ⚡빠른요약. H3=\`[산업]\`브랜드명+링크
 [G]릴리즈노트: ⚡빠른요약. 📌H2+⚙설정경로. What→Why→How
-[I]이커머스인사이트: 트렌드·인사이트 정보성. 관심/인지 단계. 크리마 언급 최소화`;
+[I]이커머스인사이트: 트렌드·인사이트 정보성. 관심/인지 단계. 크리마 언급 최소화
+[FREE]자유양식: 크리마 브랜드 문체와 가치관 유지. 주어진 목적과 내용에 맞게 자유롭게 작성`;
 
 export async function POST(req) {
   const { messages, max_tokens = 3500 } = await req.json();
@@ -49,7 +50,6 @@ export async function POST(req) {
     return new Response(text, { status: res.status });
   }
 
-  // Pipe the stream directly to the client
   return new Response(res.body, {
     headers: {
       'Content-Type': 'text/event-stream',
