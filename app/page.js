@@ -221,6 +221,7 @@ function tryGoBack(dest) {
 // ============================================================
 function selectCat(id) {
   if (id==='LAB') { document.getElementById('modal-lab').classList.remove('hidden'); return; }
+  if (id==='SVC') { document.getElementById('modal-svc').classList.remove('hidden'); return; }
   cat = id;
   formVals = {};
   renderForm();
@@ -228,6 +229,8 @@ function selectCat(id) {
 }
 function closeLab() { document.getElementById('modal-lab').classList.add('hidden'); }
 function pickLab(id) { closeLab(); selectCat(id); }
+function closeSvc() { document.getElementById('modal-svc').classList.add('hidden'); }
+function pickSvc(id) { closeSvc(); selectCat(id); }
 function resetAll() {
   cat=null; formVals={}; chatHistory=[]; currentText=''; genMode='outline'; busy=false; show('cat');
 }
@@ -345,6 +348,18 @@ function buildCtx() {
   return s;
 }
 
+function submitFormDirect() {
+  collectForm();
+  const flds = FIELDS[cat]||[];
+  const missing = flds.filter(f=>f.req&&!formVals[f.id]?.toString().trim());
+  if (missing.length) { alert('필수 항목을 입력해 주세요:\n'+missing.map(f=>f.label).join('\n')); return; }
+  genMode='full'; chatHistory=[]; currentText='';
+  resetChatUI(true);
+  show('gen');
+  refreshGenUI();
+  generate();
+}
+
 function submitForm() {
   collectForm();
   const flds = FIELDS[cat]||[];
@@ -388,25 +403,21 @@ async function generate() {
   let userMsg;
 
   if (genMode==='outline') {
-    userMsg=\`다음 정보를 바탕으로 크리마 블로그 아티클 개요를 작성해줘.
+    userMsg=\`다음 정보로 크리마 블로그 아티클 개요를 간결하게 작성해줘.
 
 \${ctx}\${docNote}
 
-📋 작성 개요
-
-카테고리: [카테고리명]
-제목 (안):
-예상 분량: 약 N자 / N개 섹션
-핵심 키워드 (SEO):
-핵심 소구 포인트:
-
+형식:
+제목(안):
+핵심 키워드:
+소구 포인트:
 ---
-
-[인트로] 훅 방향: ~
-[섹션 1] H2 소제목(안): ~ → 핵심 내용: ~ → 이미지/인용/팁박스 계획: ~
-[섹션 2~4] 동일 형식
-[아웃트로] 방향: ~
-[메타 디스크립션 안]: ~\`;
+[인트로] 방향: (1문장)
+[섹션1] 소제목: / 내용: (1~2문장)
+[섹션2] 소제목: / 내용: (1~2문장)
+[섹션3] 소제목: / 내용: (1~2문장)
+[아웃트로] 방향: (1문장)
+[메타 디스크립션]: (80자 이내)\`;
   } else {
     const prev = currentText || (chatHistory.filter(m=>m.role==='assistant').pop()?.content) || '';
     userMsg=\`다음 재료와 개요를 바탕으로 크리마 블로그 초안을 작성해줘.
@@ -1068,7 +1079,7 @@ textarea.form-input{resize:vertical}
     </div>
 
     <!-- 02 크리마 서비스 -->
-    <div onclick="selectCat('B')" class="group relative overflow-hidden bg-white rounded-3xl p-8 editorial-shadow transition-all duration-300 card-hover cursor-pointer border border-transparent hover:border-primary/20">
+    <div onclick="selectCat('SVC')" class="group relative overflow-hidden bg-white rounded-3xl p-8 editorial-shadow transition-all duration-300 card-hover cursor-pointer border border-transparent hover:border-primary/20">
       <div class="flex justify-between items-start mb-10">
         <div class="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
           <span class="material-symbols-outlined text-primary group-hover:text-white text-3xl transition-colors">auto_awesome</span>
@@ -1189,10 +1200,16 @@ textarea.form-input{resize:vertical}
     <div id="form-fields" class="space-y-7"></div>
     <div class="mt-10 flex items-center justify-between pt-8 border-t border-outline-variant">
       <p class="text-sm text-on-surface-variant">* 표시 항목은 필수예요</p>
-      <button onclick="submitForm()" class="flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-full text-sm hover:bg-[#1b64da] transition-colors shadow-lg shadow-primary/20">
-        개요 생성하기
-        <span class="material-symbols-outlined text-sm">auto_awesome</span>
-      </button>
+      <div class="flex items-center gap-3">
+        <button onclick="submitFormDirect()" class="flex items-center gap-2 px-6 py-3.5 bg-white border border-outline-variant text-on-surface-variant font-medium rounded-full text-sm hover:border-primary hover:text-primary transition-colors">
+          초안 바로 생성
+          <span class="material-symbols-outlined text-sm">bolt</span>
+        </button>
+        <button onclick="submitForm()" class="flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-bold rounded-full text-sm hover:bg-[#1b64da] transition-colors shadow-lg shadow-primary/20">
+          개요 생성하기
+          <span class="material-symbols-outlined text-sm">auto_awesome</span>
+        </button>
+      </div>
     </div>
   </div>
 </main>
@@ -1280,7 +1297,7 @@ textarea.form-input{resize:vertical}
 <!-- ===== MODAL: 연구소 서브카테고리 ===== -->
 <div id="modal-lab" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
   <div onclick="closeLab()" class="absolute inset-0 bg-black/25 backdrop-blur-sm"></div>
-  <div class="relative bg-white rounded-3xl p-10 editorial-shadow max-w-4xl w-full z-10 fade-up">
+  <div class="relative bg-white rounded-3xl p-10 editorial-shadow max-w-2xl w-full z-10 fade-up">
     <button onclick="closeLab()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-surface-container transition-colors">
       <span class="material-symbols-outlined text-on-surface-variant text-lg">close</span>
     </button>
@@ -1291,26 +1308,14 @@ textarea.form-input{resize:vertical}
       <h3 class="text-2xl font-headline font-extrabold text-on-surface">크리마 연구소</h3>
       <p class="text-on-surface-variant mt-2 text-sm">어떤 유형의 콘텐츠를 만들까요?</p>
     </div>
-    <div class="grid grid-cols-3 gap-5">
+    <div class="grid grid-cols-2 gap-4">
 
-      <!-- 서비스 활용팁 -->
-      <div onclick="pickLab('C')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-6 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
-          <span class="material-symbols-outlined text-primary group-hover:text-white text-xl transition-colors">tips_and_updates</span>
+      <!-- 크리마 인사이트 -->
+      <div onclick="pickLab('D')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-5 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
+        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-3 group-hover:bg-primary transition-colors">
+          <span class="material-symbols-outlined text-primary group-hover:text-white text-lg transition-colors">analytics</span>
         </div>
-        <h4 class="font-headline font-bold text-on-surface mb-2 whitespace-nowrap">서비스 활용팁</h4>
-        <p class="text-on-surface-variant text-xs leading-relaxed">크리마 서비스 기능을 상세히 안내하여 기존 고객사를 더욱 락인시킬 수 있도록 합니다.</p>
-        <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-          선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
-        </p>
-      </div>
-
-      <!-- 크리마 연구소 -->
-      <div onclick="pickLab('D')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-6 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
-          <span class="material-symbols-outlined text-primary group-hover:text-white text-xl transition-colors">analytics</span>
-        </div>
-        <h4 class="font-headline font-bold text-on-surface mb-2 whitespace-nowrap">크리마 연구소</h4>
+        <h4 class="font-headline font-bold text-on-surface mb-2 text-sm" style="white-space:nowrap">크리마 인사이트</h4>
         <p class="text-on-surface-variant text-xs leading-relaxed">보유 데이터를 가공/분석하여 트렌드를 제시하고 데이터 기반의 포지셔닝을 강화합니다.</p>
         <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
           선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
@@ -1318,12 +1323,56 @@ textarea.form-input{resize:vertical}
       </div>
 
       <!-- 이커머스 인사이트 -->
-      <div onclick="pickLab('I')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-6 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
-          <span class="material-symbols-outlined text-primary group-hover:text-white text-xl transition-colors">trending_up</span>
+      <div onclick="pickLab('I')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-5 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
+        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-3 group-hover:bg-primary transition-colors">
+          <span class="material-symbols-outlined text-primary group-hover:text-white text-lg transition-colors">trending_up</span>
         </div>
-        <h4 class="font-headline font-bold text-on-surface mb-2 whitespace-nowrap">이커머스 인사이트</h4>
+        <h4 class="font-headline font-bold text-on-surface mb-2 text-sm" style="white-space:nowrap">이커머스 인사이트</h4>
         <p class="text-on-surface-variant text-xs leading-relaxed">자사몰 운영에 실질적인 도움을 주는 정보성 콘텐츠로 이커머스 비즈니스 성장을 지원합니다.</p>
+        <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+          선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: 크리마 서비스 서브카테고리 ===== -->
+<div id="modal-svc" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
+  <div onclick="closeSvc()" class="absolute inset-0 bg-black/25 backdrop-blur-sm"></div>
+  <div class="relative bg-white rounded-3xl p-10 editorial-shadow max-w-2xl w-full z-10 fade-up">
+    <button onclick="closeSvc()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-surface-container transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant text-lg">close</span>
+    </button>
+    <div class="text-center mb-8">
+      <div class="w-14 h-14 rounded-2xl bg-primary/8 flex items-center justify-center mx-auto mb-4">
+        <span class="material-symbols-outlined text-primary text-3xl">auto_awesome</span>
+      </div>
+      <h3 class="text-2xl font-headline font-extrabold text-on-surface">크리마 서비스</h3>
+      <p class="text-on-surface-variant mt-2 text-sm">어떤 유형의 콘텐츠를 만들까요?</p>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+
+      <!-- 주요 기능 안내 -->
+      <div onclick="pickSvc('B')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-5 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
+        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-3 group-hover:bg-primary transition-colors">
+          <span class="material-symbols-outlined text-primary group-hover:text-white text-lg transition-colors">auto_awesome</span>
+        </div>
+        <h4 class="font-headline font-bold text-on-surface mb-2 text-sm" style="white-space:nowrap">주요 기능 안내</h4>
+        <p class="text-on-surface-variant text-xs leading-relaxed">크리마의 신규 및 주요 서비스를 매력적으로 알려 신규 리드를 확보하고 활용도를 높입니다.</p>
+        <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+          선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        </p>
+      </div>
+
+      <!-- 서비스 활용팁 -->
+      <div onclick="pickSvc('C')" class="group cursor-pointer bg-surface-container-low rounded-2xl p-5 border-2 border-transparent hover:border-primary/30 hover:bg-blue-50/40 transition-all">
+        <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-3 group-hover:bg-primary transition-colors">
+          <span class="material-symbols-outlined text-primary group-hover:text-white text-lg transition-colors">tips_and_updates</span>
+        </div>
+        <h4 class="font-headline font-bold text-on-surface mb-2 text-sm" style="white-space:nowrap">서비스 활용팁</h4>
+        <p class="text-on-surface-variant text-xs leading-relaxed">크리마 서비스 기능을 상세히 안내하여 기존 고객사를 더욱 락인시킬 수 있도록 합니다.</p>
         <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
           선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
         </p>
