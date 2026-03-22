@@ -1280,7 +1280,7 @@ textarea.form-input{resize:vertical}
 <!-- ===== MODAL: 연구소 서브카테고리 ===== -->
 <div id="modal-lab" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
   <div onclick="closeLab()" class="absolute inset-0 bg-black/25 backdrop-blur-sm"></div>
-  <div class="relative bg-white rounded-3xl p-10 editorial-shadow max-w-2xl w-full z-10 fade-up">
+  <div class="relative bg-white rounded-3xl p-10 editorial-shadow max-w-3xl w-full z-10 fade-up">
     <button onclick="closeLab()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-surface-container transition-colors">
       <span class="material-symbols-outlined text-on-surface-variant text-lg">close</span>
     </button>
