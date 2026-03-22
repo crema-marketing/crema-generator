@@ -1298,7 +1298,7 @@ textarea.form-input{resize:vertical}
         <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
           <span class="material-symbols-outlined text-primary group-hover:text-white text-xl transition-colors">tips_and_updates</span>
         </div>
-        <h4 class="font-headline font-bold text-on-surface mb-2 leading-tight">서비스<br/>활용팁</h4>
+        <h4 class="font-headline font-bold text-on-surface mb-2 whitespace-nowrap">서비스<br/>활용팁</h4>
         <p class="text-on-surface-variant text-xs leading-relaxed">크리마 서비스 기능을 상세히 안내하여 기존 고객사를 더욱 락인시킬 수 있도록 합니다.</p>
         <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
           선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
@@ -1310,7 +1310,7 @@ textarea.form-input{resize:vertical}
         <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
           <span class="material-symbols-outlined text-primary group-hover:text-white text-xl transition-colors">analytics</span>
         </div>
-        <h4 class="font-headline font-bold text-on-surface mb-2 leading-tight">크리마<br/>연구소</h4>
+        <h4 class="font-headline font-bold text-on-surface mb-2 whitespace-nowrap">크리마<br/>연구소</h4>
         <p class="text-on-surface-variant text-xs leading-relaxed">보유 데이터를 가공/분석하여 트렌드를 제시하고 데이터 기반의 포지셔닝을 강화합니다.</p>
         <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
           선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
@@ -1322,7 +1322,7 @@ textarea.form-input{resize:vertical}
         <div class="w-11 h-11 rounded-xl bg-white shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
           <span class="material-symbols-outlined text-primary group-hover:text-white text-xl transition-colors">trending_up</span>
         </div>
-        <h4 class="font-headline font-bold text-on-surface mb-2 leading-tight">이커머스<br/>인사이트</h4>
+        <h4 class="font-headline font-bold text-on-surface mb-2 whitespace-nowrap">이커머스<br/>인사이트</h4>
         <p class="text-on-surface-variant text-xs leading-relaxed">자사몰 운영에 실질적인 도움을 주는 정보성 콘텐츠로 이커머스 비즈니스 성장을 지원합니다.</p>
         <p class="mt-3 text-xs font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
           선택 <span class="material-symbols-outlined text-xs">arrow_forward</span>
