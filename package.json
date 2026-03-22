@@ -8,9 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.27",
     "next": "14.2.5",
+    "postcss": "^8.5.8",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5"
