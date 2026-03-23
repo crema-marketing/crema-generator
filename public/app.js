@@ -107,11 +107,13 @@ function show(v) {
   const navGen = document.querySelector('a[onclick="resetAll()"]');
   const navVar = document.querySelector('a[onclick="goToVariationHome()"]');
   if(navGen && navVar) {
-    const activeStyle = {background:'white', color:'#3182f6', fontWeight:'bold', boxShadow:'0 1px 3px rgba(0,0,0,.1)', borderRadius:'9999px'};
-    const inactiveStyle = {background:'', color:'', fontWeight:'', boxShadow:'', borderRadius:''};
-    const [active, inactive] = v === 'var' ? [navVar, navGen] : [navGen, navVar];
-    Object.assign(active.style, activeStyle);
-    Object.assign(inactive.style, inactiveStyle);
+    if(v === 'var') {
+      navGen.style.cssText = 'background:transparent!important;color:#4e5968;font-weight:500;box-shadow:none';
+      navVar.style.cssText = 'background:white!important;color:#3182f6;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)';
+    } else {
+      navVar.style.cssText = 'background:transparent!important;color:#4e5968;font-weight:500;box-shadow:none';
+      navGen.style.cssText = 'background:white!important;color:#3182f6;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.1)';
+    }
   }
   window.scrollTo({top:0,behavior:'smooth'});
 }
