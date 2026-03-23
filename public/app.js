@@ -103,6 +103,18 @@ function show(v) {
   const pb = document.getElementById('progress-bar');
   if(pb) pb.style.display = (v==='var') ? 'none' : '';
   updateSteps(v);
+  // Update header nav active state
+  const navGen = document.querySelector('a[onclick="resetAll()"]');
+  const navVar = document.querySelector('a[onclick="goToVariationHome()"]');
+  if(navGen && navVar) {
+    if(v === 'var') {
+      navGen.className = navGen.className.replace('bg-white text-primary font-bold shadow-sm','text-on-surface-variant font-medium hover:bg-white/50');
+      navVar.className = navVar.className.replace('text-on-surface-variant font-medium hover:bg-white/50','bg-white text-primary font-bold shadow-sm');
+    } else {
+      navVar.className = navVar.className.replace('bg-white text-primary font-bold shadow-sm','text-on-surface-variant font-medium hover:bg-white/50');
+      navGen.className = navGen.className.replace('text-on-surface-variant font-medium hover:bg-white/50','bg-white text-primary font-bold shadow-sm');
+    }
+  }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
