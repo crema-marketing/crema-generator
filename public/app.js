@@ -791,11 +791,11 @@ function switchVarTab(ch) {
 function _setActiveTab(ch) {
   activeVarTab = ch;
   // Panel visibility
-  ['home','naver','brunch'].forEach(t => {
+  ['home','naver','brunch','cafe24'].forEach(t => {
     document.getElementById('vtab-'+t)?.classList.toggle('hidden', t !== ch);
   });
   // Tab button styles
-  ['home','naver','brunch'].forEach(t => {
+  ['home','naver','brunch','cafe24'].forEach(t => {
     const btn = document.getElementById('vtab-btn-'+t);
     if(!btn) return;
     if(t === ch) {
