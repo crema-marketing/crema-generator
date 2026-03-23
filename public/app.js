@@ -735,8 +735,8 @@ let varTexts = { home: '', naver: '', brunch: '', cafe24: '' };
 let varBusy = { naver: false, brunch: false, cafe24: false };
 
 const VAR_PROMPTS = {
-  naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목과 본문에 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로 절제해서 사용해줘.`,
-  brunch: `이 글의 화자나 인칭은 바꾸지 말고, 어투와 문체만 브런치 감성에 맞게 다듬어줘. 기능 설명 위주의 딱딱한 문장을 조금 더 담담하고 사유하는 듯한 어조(~다, ~했다)로 자연스럽게 바꿔줘. 내용과 구조는 그대로 유지할 것.`,
+  naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목(H1~H2)은 크고 명확하게 유지하고, 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로만 사용해줘.`,
+  brunch: `이 글의 화자나 인칭, 내용, 구조는 그대로 유지하면서 어투만 브런치 감성에 맞게 살짝 다듬어줘. 딱딱한 기능 설명 문장을 조금 더 담담하고 자연스러운 어조(~다, ~했다)로 바꾸되, 제목/소제목/볼드/구분선 등 마크다운 형식은 반드시 유지할 것.`,
   cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
 
 [어조]
@@ -753,7 +753,7 @@ const VAR_PROMPTS = {
 
 const VAR_DESCS = {
   home: '홈페이지 블로그 최종안을 붙여 넣어주세요. 네이버 블로그 / 브런치 / 카페24 탭을 클릭하면 즉시 변환이 시작돼요.',
-  naver: '키워드 반복 빈도↑ · 문단 세분화 · 모바일 가독성 · 이모지 절제',
+  naver: '키워드 반복 빈도↑ · 제목 크게 · 문단 세분화 · 모바일 가독성',
   brunch: '에세이 톤(~다, ~했다) · 고민과 통찰 중심 · 담담한 전문가 어조',
   cafe24: '해요체 기반 + 합니다체 혼합 · 불릿 포인트 구조화 · 카페24 시너지 강조 · 행동 유도 CTA',
 };
@@ -829,6 +829,8 @@ function _setActiveTab(ch) {
 
 async function _runVariation(ch, inputText) {
   varBusy[ch] = true;
+  // unescape literal \n strings
+  const cleanInput = inputText.replace(/\\n/g, '\n').trim();
   const contentEl = document.getElementById('vtab-'+ch+'-content');
   const loadingEl = document.getElementById('vtab-loading-'+ch);
   const badgeEl = document.getElementById('vtab-badge-'+ch);
@@ -843,7 +845,7 @@ async function _runVariation(ch, inputText) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         max_tokens: 3500,
-        messages: [{ role: 'user', content: `다음 원고를 아래 지침에 따라 변환해줘.\n\n지침: ${VAR_PROMPTS[ch]}\n\n원고:\n${inputText}` }],
+        messages: [{ role: 'user', content: `다음 원고를 아래 지침에 따라 변환해줘.\n\n지침: ${VAR_PROMPTS[ch]}\n\n원고:\n${cleanInput}` }],
         stream: true,
       }),
     });
