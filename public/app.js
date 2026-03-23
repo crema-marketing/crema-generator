@@ -108,11 +108,23 @@ function show(v) {
   const navVar = document.querySelector('a[onclick="goToVariationHome()"]');
   if(navGen && navVar) {
     if(v === 'var') {
-      navGen.className = navGen.className.replace('bg-white text-primary font-bold shadow-sm','text-on-surface-variant font-medium hover:bg-white/50');
-      navVar.className = navVar.className.replace('text-on-surface-variant font-medium hover:bg-white/50','bg-white text-primary font-bold shadow-sm');
+      navGen.style.background = '';
+      navGen.style.color = '';
+      navGen.style.fontWeight = '';
+      navGen.style.boxShadow = '';
+      navVar.style.background = 'white';
+      navVar.style.color = '#3182f6';
+      navVar.style.fontWeight = 'bold';
+      navVar.style.boxShadow = '0 1px 3px rgba(0,0,0,.1)';
     } else {
-      navVar.className = navVar.className.replace('bg-white text-primary font-bold shadow-sm','text-on-surface-variant font-medium hover:bg-white/50');
-      navGen.className = navGen.className.replace('text-on-surface-variant font-medium hover:bg-white/50','bg-white text-primary font-bold shadow-sm');
+      navVar.style.background = '';
+      navVar.style.color = '';
+      navVar.style.fontWeight = '';
+      navVar.style.boxShadow = '';
+      navGen.style.background = 'white';
+      navGen.style.color = '#3182f6';
+      navGen.style.fontWeight = 'bold';
+      navGen.style.boxShadow = '0 1px 3px rgba(0,0,0,.1)';
     }
   }
   window.scrollTo({top:0,behavior:'smooth'});
