@@ -476,7 +476,10 @@ ${prev}
       }
     }
     // Final render (flush remaining)
-    const cleanFull = full.replace(/\\+n/g,'\n').replace(/[\\]+\s*$/,'').trim();
+    const cleanFull = full
+      .replace(/(\\\s*\n?\s*)+$/g, '')  // remove trailing backslash+n patterns
+      .replace(/\\+n/g, '\n')
+      .trim();
     disp.innerHTML=mdRender(cleanFull);
     currentText=cleanFull;
     if(genMode==='outline') chatHistory.push({role:'assistant',content:cleanFull});
@@ -854,7 +857,7 @@ async function _runVariation(ch, inputText) {
   contentEl.innerHTML = '<div class="flex items-center gap-3 text-on-surface-variant py-8"><div><span class="dot-bounce"></span><span class="dot-bounce"></span><span class="dot-bounce"></span></div><span class="text-sm">변환하고 있어요...</span></div>';
 
   function cleanOut(t) {
-    return t.replace(/\\+n/g,'\n').replace(/[\\]+\s*$/,'').trim();
+    return t.replace(/(\\\s*\n?\s*)+$/g,'').replace(/\\+n/g,'\n').trim();
   }
 
   try {
