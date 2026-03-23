@@ -476,9 +476,10 @@ ${prev}
       }
     }
     // Final render (flush remaining)
-    disp.innerHTML=mdRender(full);
-    currentText=full;
-    if(genMode==='outline') chatHistory.push({role:'assistant',content:full});
+    const cleanFull = full.replace(/\\n/g,'\n').replace(/\\\s*$/gm,'').trim();
+    disp.innerHTML=mdRender(cleanFull);
+    currentText=cleanFull;
+    if(genMode==='outline') chatHistory.push({role:'assistant',content:cleanFull});
 
   }catch(e){
     loader.classList.add('hidden');
@@ -736,7 +737,11 @@ let varBusy = { naver: false, brunch: false, cafe24: false };
 
 const VAR_PROMPTS = {
   naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목(H1~H2)은 크고 명확하게 유지하고, 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로만 사용해줘.`,
-  brunch: `이 글의 화자, 인칭, 내용, 구조는 절대 바꾸지 말고 어투만 브런치 감성에 맞게 살짝 다듬어줘. 딱딱한 기능 설명 문장을 조금 더 담담하고 자연스러운 어조(~다, ~했다)로 바꾸되, 다음 요소는 반드시 원본 그대로 유지할 것: # ## ### H태그 제목, **볼드**, --- 구분선, - 리스트, 이모지. 어투 변환 외에 다른 변경은 하지 말 것.`,
+  brunch: `이 글을 브런치 스타일로 변환해줘. 아래 규칙을 반드시 지킬 것:
+1. 제목(# 으로 시작하는 H1)은 한글 20자 이내로 압축해줘
+2. ## ### 소제목, **볼드**, --- 구분선, - 리스트, 이모지 등 마크다운 형식은 원본 그대로 유지
+3. 화자, 인칭, 내용, 구조는 절대 바꾸지 말 것
+4. 본문 문장의 어투만 (~해요 → ~다, ~했다) 담담하게 바꿀 것`,
   cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
 
 [어조]
