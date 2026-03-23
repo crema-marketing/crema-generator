@@ -829,8 +829,12 @@ function _setActiveTab(ch) {
 
 async function _runVariation(ch, inputText) {
   varBusy[ch] = true;
-  // unescape literal \n strings
-  const cleanInput = inputText.replace(/\\n/g, '\n').trim();
+  // Clean literal \n sequences and trailing garbage
+  const cleanInput = inputText
+    .replace(/\\n/g, '\n')
+    .replace(/\\\s*$/gm, '')
+    .replace(/^\s+|\s+$/g, '')
+    .trim();
   const contentEl = document.getElementById('vtab-'+ch+'-content');
   const loadingEl = document.getElementById('vtab-loading-'+ch);
   const badgeEl = document.getElementById('vtab-badge-'+ch);
@@ -839,9 +843,12 @@ async function _runVariation(ch, inputText) {
   badgeEl?.classList.add('hidden');
   contentEl.innerHTML = '<div class="flex items-center gap-3 text-on-surface-variant py-8"><div><span class="dot-bounce"></span><span class="dot-bounce"></span><span class="dot-bounce"></span></div><span class="text-sm">변환하고 있어요...</span></div>';
 
+  function cleanOut(t) {
+    return t.replace(/\\n/g,'\n').replace(/\\\s*$/gm,'').trim();
+  }
+
   try {
     const res = await fetch('/api/variation', {
-      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         max_tokens: 3500,
@@ -861,7 +868,7 @@ async function _runVariation(ch, inputText) {
       renderPending = true;
       setTimeout(() => {
         renderPending = false;
-        contentEl.innerHTML = mdRender(full.replace(/\\n/g,'\n').trim());
+        contentEl.innerHTML = mdRender(cleanOut(full));
       }, 120);
     };
 
@@ -880,8 +887,8 @@ async function _runVariation(ch, inputText) {
         } catch{}
       }
     }
-    contentEl.innerHTML = mdRender(full.replace(/\\n/g,'\n').trim());
-    varTexts[ch] = full.replace(/\\n/g,'\n').trim();
+    contentEl.innerHTML = mdRender(cleanOut(full));
+    varTexts[ch] = cleanOut(full);
     badgeEl?.classList.remove('hidden');
   } catch(e) {
     contentEl.innerHTML = `<div class="p-4 bg-red-50 rounded-xl text-red-600 text-sm">오류: ${escH(e.message)}<br>다시 변환 버튼을 눌러주세요.</div>`;
