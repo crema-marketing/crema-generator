@@ -736,7 +736,7 @@ let varBusy = { naver: false, brunch: false, cafe24: false };
 
 const VAR_PROMPTS = {
   naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목과 본문에 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로 절제해서 사용해줘.`,
-  brunch: `이 글을 브런치 감성에 맞게 '에세이 톤'으로 다시 써줘. 기능 설명보다는 이커머스 마케터로서 겪는 '고민과 통찰'에 초점을 맞추고, 전문적인 인사이트를 담담한 어조(~다, ~했다)로 풀어내 줘.`,
+  brunch: `이 글의 화자나 인칭은 바꾸지 말고, 어투와 문체만 브런치 감성에 맞게 다듬어줘. 기능 설명 위주의 딱딱한 문장을 조금 더 담담하고 사유하는 듯한 어조(~다, ~했다)로 자연스럽게 바꿔줘. 내용과 구조는 그대로 유지할 것.`,
   cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
 
 [어조]
@@ -859,7 +859,7 @@ async function _runVariation(ch, inputText) {
       renderPending = true;
       setTimeout(() => {
         renderPending = false;
-        contentEl.innerHTML = mdRender(full);
+        contentEl.innerHTML = mdRender(full.trim());
       }, 120);
     };
 
