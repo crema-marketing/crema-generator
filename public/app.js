@@ -624,20 +624,11 @@ async function sendChat() {
     currentText = revised;
     chatHistory.push({role:'user', content: msg});
     chatHistory.push({role:'assistant', content: revised});
+    refreshGenUI();
+    document.getElementById('next-btn').disabled=false;
 
     // Step 2: Short summary message in chat
-    const summaryRes = await fetch('/api/generate', {
-      method:'POST',
-      body: JSON.stringify({
-        max_tokens: 200,
-        system: '너는 친절한 에디터야. 반드시 해요체로 답변해.',
-        messages: [{role:'user', content:`"${msg}" 수정 요청을 반영했어. 무엇을 어떻게 바꿨는지 2~3문장으로 간단히 요약해줘.`}],
-        stream: false,
-      }),
-    });
-    const summaryData = await summaryRes.json();
-    const summary = (summaryData.content||[]).map(b=>b.text||'').join('').trim() || '요청하신 내용으로 수정했어요.';
-    addChatMsg('ai', summary);
+    addChatMsg('ai', '요청하신 내용으로 수정했어요.');
 
   } catch(e) {
     document.getElementById(tid)?.remove();
