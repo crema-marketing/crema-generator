@@ -785,9 +785,10 @@ function goToVariation() {
 function switchVarTab(ch) {
   if(activeVarTab === ch) return;
   _setActiveTab(ch);
-  // If naver/brunch and not yet generated → start generation
+  // If naver/brunch/cafe24 and not yet generated → start generation
   if(ch !== 'home' && !varTexts[ch] && !varBusy[ch]) {
-    const src = document.getElementById('var-input')?.value.trim();
+    const raw = document.getElementById('var-input')?.value || '';
+    const src = raw.replace(/\\n/g,'\n').replace(/\\\s*$/gm,'').trim();
     if(!src) { alert('홈페이지 블로그 탭에서 최종안을 먼저 입력해 주세요.'); _setActiveTab('home'); return; }
     _runVariation(ch, src);
   }
@@ -849,6 +850,7 @@ async function _runVariation(ch, inputText) {
 
   try {
     const res = await fetch('/api/variation', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         max_tokens: 3500,
