@@ -755,7 +755,7 @@ const VAR_DESCS = {
   home: '홈페이지 블로그 최종안을 붙여 넣어주세요. 네이버 블로그 / 브런치 / 카페24 탭을 클릭하면 즉시 변환이 시작돼요.',
   naver: '키워드 반복 빈도↑ · 문단 세분화 · 모바일 가독성 · 이모지 절제',
   brunch: '에세이 톤(~다, ~했다) · 고민과 통찰 중심 · 담담한 전문가 어조',
-  cafe24: '합쇼체 변환 · 불릿 포인트 구조화 · 카페24 시너지 강조 · 강력한 CTA',
+  cafe24: '해요체 기반 + 합니다체 혼합 · 불릿 포인트 구조화 · 카페24 시너지 강조 · 행동 유도 CTA',
 };
 
 function goToVariation() {
@@ -878,8 +878,8 @@ async function _runVariation(ch, inputText) {
         } catch{}
       }
     }
-    contentEl.innerHTML = mdRender(full);
-    varTexts[ch] = full;
+    contentEl.innerHTML = mdRender(full.trim());
+    varTexts[ch] = full.trim();
     badgeEl?.classList.remove('hidden');
   } catch(e) {
     contentEl.innerHTML = `<div class="p-4 bg-red-50 rounded-xl text-red-600 text-sm">오류: ${escH(e.message)}<br>다시 변환 버튼을 눌러주세요.</div>`;
