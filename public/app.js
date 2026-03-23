@@ -108,7 +108,7 @@ function show(v) {
 
 function updateSteps(v) {
   const active = v==='cat'?1 : v==='form'?2 : v==='gen'?(genMode==='outline'?3:4) : 4;
-  const labels = ['카테고리 선택','콘텐츠 재료 입력','개요 확인','초안 완성'];
+  const labels = ['카테고리 선택','콘텐츠 재료 입력','개요 생성','초안 생성'];
   for (let i=1; i<=4; i++) {
     const n = document.getElementById('s'+i+'n');
     const s = document.getElementById('s'+i);
@@ -151,14 +151,14 @@ function goToVariationHome() {
   const source = currentText || document.getElementById('content-display')?.innerText || '';
   if(ta && source.trim()) ta.value = source.trim();
   activeVarTab = 'home';
-  varTexts = { home:'', naver:'', brunch:'' };
-  varBusy = { naver:false, brunch:false };
-  ['naver','brunch'].forEach(ch => {
+  varTexts = { home:'', naver:'', brunch:'', cafe24:'' };
+  varBusy = { naver:false, brunch:false, cafe24:false };
+  ['naver','brunch','cafe24'].forEach(ch => {
     document.getElementById('vtab-badge-'+ch)?.classList.add('hidden');
     document.getElementById('vtab-loading-'+ch)?.classList.add('hidden');
     const el = document.getElementById('vtab-'+ch+'-content');
     if(el) el.innerHTML = `<div class="flex flex-col items-center justify-center h-64 text-on-surface-variant gap-3">
-      <span class="material-symbols-outlined text-4xl opacity-30">${ch==='naver'?'article':'edit_note'}</span>
+      <span class="material-symbols-outlined text-4xl opacity-30">${ch==='naver'?'article':ch==='brunch'?'edit_note':'storefront'}</span>
       <p class="text-sm">탭이 활성화되면 자동으로 변환이 시작돼요</p></div>`;
   });
   _setActiveTab('home');
@@ -729,18 +729,31 @@ function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 // VARIATION — 탭 기반
 // ============================================================
 let activeVarTab = 'home';
-let varTexts = { home: '', naver: '', brunch: '' };
-let varBusy = { naver: false, brunch: false };
+let varTexts = { home: '', naver: '', brunch: '', cafe24: '' };
+let varBusy = { naver: false, brunch: false, cafe24: false };
 
 const VAR_PROMPTS = {
-  naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목과 본문에 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 친근한 이모지도 적절히 섞어줘.`,
+  naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목과 본문에 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로 절제해서 사용해줘.`,
   brunch: `이 글을 브런치 감성에 맞게 '에세이 톤'으로 다시 써줘. 기능 설명보다는 이커머스 마케터로서 겪는 '고민과 통찰'에 초점을 맞추고, 전문적인 인사이트를 담담한 어조(~다, ~했다)로 풀어내 줘.`,
+  cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
+
+[어조]
+- 원본의 해요체를 걷어내고 전문성과 확신이 느껴지는 합쇼체(~합니다, ~하십시오)로 변환할 것
+- "~할 수 있어요" → "~할 수 있습니다", "추천해요" → "권장합니다"
+
+[구조 및 내용]
+- 서론은 카페24 쇼핑몰 운영자들이 겪는 매출/운영/CS의 구체적인 페인포인트로 시작할 것
+- 긴 줄글을 분해해서 혜택 중심의 불릿 포인트(- 또는 ✔️) 리스트로 변환할 것
+- 원본에 성과 데이터나 수치가 있다면 소제목이나 리스트 앞단으로 끌어와 강조할 것
+- "카페24 쇼핑몰 환경에 완벽하게 연동되어~", "카페24 운영자라면 복잡한 개발 없이~" 같은 플랫폼 시너지 키워드를 1~2회 자연스럽게 삽입할 것
+- 아웃트로는 "지금 바로 크리마를 연동하고 매출 변화를 경험하십시오"와 같은 명확한 행동 유도(앱 설치/상담 신청)로 마무리할 것`,
 };
 
 const VAR_DESCS = {
-  home: '홈페이지 블로그 최종안을 붙여 넣어주세요. 네이버 블로그 / 브런치 탭을 클릭하면 즉시 변환이 시작돼요.',
-  naver: '키워드 반복 빈도↑ · 문단 세분화 · 모바일 가독성 · 이모지 추가',
+  home: '홈페이지 블로그 최종안을 붙여 넣어주세요. 네이버 블로그 / 브런치 / 카페24 탭을 클릭하면 즉시 변환이 시작돼요.',
+  naver: '키워드 반복 빈도↑ · 문단 세분화 · 모바일 가독성 · 이모지 절제',
   brunch: '에세이 톤(~다, ~했다) · 고민과 통찰 중심 · 담담한 전문가 어조',
+  cafe24: '합쇼체 변환 · 불릿 포인트 구조화 · 카페24 시너지 강조 · 강력한 CTA',
 };
 
 function goToVariation() {
@@ -749,15 +762,15 @@ function goToVariation() {
   if(ta && source.trim() && !ta.value.trim()) ta.value = source.trim();
   // Reset tab state
   activeVarTab = 'home';
-  varTexts = { home: '', naver: '', brunch: '' };
-  varBusy = { naver: false, brunch: false };
+  varTexts = { home: '', naver: '', brunch: '', cafe24: '' };
+  varBusy = { naver: false, brunch: false, cafe24: false };
   // Reset tab UI
-  ['naver','brunch'].forEach(ch => {
+  ['naver','brunch','cafe24'].forEach(ch => {
     document.getElementById('vtab-badge-'+ch)?.classList.add('hidden');
     document.getElementById('vtab-loading-'+ch)?.classList.add('hidden');
     const el = document.getElementById('vtab-'+ch+'-content');
     if(el) el.innerHTML = `<div class="flex flex-col items-center justify-center h-64 text-on-surface-variant gap-3">
-      <span class="material-symbols-outlined text-4xl opacity-30">${ch==='naver'?'article':'edit_note'}</span>
+      <span class="material-symbols-outlined text-4xl opacity-30">${ch==='naver'?'article':ch==='brunch'?'edit_note':'storefront'}</span>
       <p class="text-sm">탭이 활성화되면 자동으로 변환이 시작돼요</p></div>`;
   });
   _setActiveTab('home');
