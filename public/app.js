@@ -149,7 +149,9 @@ function clickStep(n) {
 function goToVariationHome() {
   const ta = document.getElementById('var-input');
   const source = currentText || document.getElementById('content-display')?.innerText || '';
-  if(ta && source.trim()) ta.value = source.trim();
+  if(ta && source.trim()) {
+    ta.value = source.trim().replace(/\\n/g, '\n');
+  }
   activeVarTab = 'home';
   varTexts = { home:'', naver:'', brunch:'', cafe24:'' };
   varBusy = { naver:false, brunch:false, cafe24:false };
@@ -738,15 +740,15 @@ const VAR_PROMPTS = {
   cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
 
 [어조]
-- 원본의 해요체를 걷어내고 전문성과 확신이 느껴지는 합쇼체(~합니다, ~하십시오)로 변환할 것
-- "~할 수 있어요" → "~할 수 있습니다", "추천해요" → "권장합니다"
+- 기본은 친근한 해요체(~해요, ~있어요)를 유지하되, 핵심 혜택과 CTA 문장에서만 신뢰감을 주는 합니다체(~합니다, ~됩니다)를 섞어줘
+- 전체의 70%는 해요체, 30%는 합니다체 비율로
 
 [구조 및 내용]
 - 서론은 카페24 쇼핑몰 운영자들이 겪는 매출/운영/CS의 구체적인 페인포인트로 시작할 것
 - 긴 줄글을 분해해서 혜택 중심의 불릿 포인트(- 또는 ✔️) 리스트로 변환할 것
 - 원본에 성과 데이터나 수치가 있다면 소제목이나 리스트 앞단으로 끌어와 강조할 것
-- "카페24 쇼핑몰 환경에 완벽하게 연동되어~", "카페24 운영자라면 복잡한 개발 없이~" 같은 플랫폼 시너지 키워드를 1~2회 자연스럽게 삽입할 것
-- 아웃트로는 "지금 바로 크리마를 연동하고 매출 변화를 경험하십시오"와 같은 명확한 행동 유도(앱 설치/상담 신청)로 마무리할 것`,
+- "카페24 쇼핑몰에 바로 연동해서~", "카페24 운영자라면 복잡한 개발 없이~" 같은 플랫폼 시너지 키워드를 1~2회 자연스럽게 삽입할 것
+- 아웃트로는 "지금 바로 크리마를 연동하고 매출 변화를 경험해보세요"와 같은 행동 유도로 마무리할 것`,
 };
 
 const VAR_DESCS = {
@@ -759,7 +761,10 @@ const VAR_DESCS = {
 function goToVariation() {
   const ta = document.getElementById('var-input');
   const source = currentText || document.getElementById('content-display')?.innerText || '';
-  if(ta && source.trim() && !ta.value.trim()) ta.value = source.trim();
+  if(ta && source.trim() && !ta.value.trim()) {
+    // Replace literal \n strings with actual newlines
+    ta.value = source.trim().replace(/\\n/g, '\n');
+  }
   // Reset tab state
   activeVarTab = 'home';
   varTexts = { home: '', naver: '', brunch: '', cafe24: '' };
