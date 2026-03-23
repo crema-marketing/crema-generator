@@ -694,8 +694,11 @@ function copyContent() {
 // ============================================================
 function mdRender(text) {
   if(!text) return '';
-  // Remove trailing backslash+n garbage from API responses
-  text = text.replace(/[\\n\s]+$/g, '').replace(/\\n/g, '\n').trim();
+  // First convert literal \n to real newlines, then strip trailing backslashes/whitespace
+  text = text
+    .replace(/\\n/g, '\n')
+    .replace(/[\\\s]+$/, '')
+    .trim();
   // Clean literal \n sequences before rendering
   const cleaned = text.replace(/\\n/g,'\n').replace(/\\\s*$/gm,'').trim();
   const lines=cleaned.split('\n');
