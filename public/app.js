@@ -736,7 +736,7 @@ let varBusy = { naver: false, brunch: false, cafe24: false };
 
 const VAR_PROMPTS = {
   naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목(H1~H2)은 크고 명확하게 유지하고, 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로만 사용해줘.`,
-  brunch: `이 글의 화자나 인칭, 내용, 구조는 그대로 유지하면서 어투만 브런치 감성에 맞게 살짝 다듬어줘. 딱딱한 기능 설명 문장을 조금 더 담담하고 자연스러운 어조(~다, ~했다)로 바꾸되, 제목/소제목/볼드/구분선 등 마크다운 형식은 반드시 유지할 것.`,
+  brunch: `이 글의 화자, 인칭, 내용, 구조는 절대 바꾸지 말고 어투만 브런치 감성에 맞게 살짝 다듬어줘. 딱딱한 기능 설명 문장을 조금 더 담담하고 자연스러운 어조(~다, ~했다)로 바꾸되, 다음 요소는 반드시 원본 그대로 유지할 것: # ## ### H태그 제목, **볼드**, --- 구분선, - 리스트, 이모지. 어투 변환 외에 다른 변경은 하지 말 것.`,
   cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
 
 [어조]
@@ -861,7 +861,7 @@ async function _runVariation(ch, inputText) {
       renderPending = true;
       setTimeout(() => {
         renderPending = false;
-        contentEl.innerHTML = mdRender(full.trim());
+        contentEl.innerHTML = mdRender(full.replace(/\\n/g,'\n').trim());
       }, 120);
     };
 
@@ -880,8 +880,8 @@ async function _runVariation(ch, inputText) {
         } catch{}
       }
     }
-    contentEl.innerHTML = mdRender(full.trim());
-    varTexts[ch] = full.trim();
+    contentEl.innerHTML = mdRender(full.replace(/\\n/g,'\n').trim());
+    varTexts[ch] = full.replace(/\\n/g,'\n').trim();
     badgeEl?.classList.remove('hidden');
   } catch(e) {
     contentEl.innerHTML = `<div class="p-4 bg-red-50 rounded-xl text-red-600 text-sm">오류: ${escH(e.message)}<br>다시 변환 버튼을 눌러주세요.</div>`;
