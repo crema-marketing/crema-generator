@@ -93,6 +93,289 @@ const FIELDS = {
 };
 
 // ============================================================
+// CATEGORY-SPECIFIC OUTLINE STRUCTURES
+// ============================================================
+const OUTLINE_STRUCTS = {
+  A:`💬 타이틀 후보
+1안 (스토리텔링형):
+2안 (수치·성과형):
+3안 (메시지 중심형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+독자가 이입할 포인트 (브랜드 상황 or 고민):
+훅 방향 (브랜드 철학 or 성과 수치):
+#섹션1 브랜드 철학 / 자사몰의 의미
+소제목(~해요 어미):
+핵심 내용:
+#섹션2 성장 전략
+소제목:
+핵심 내용:
+#섹션3 고객 경험 / 커뮤니티
+소제목:
+핵심 내용:
+#섹션4 크리마 도입 계기
+소제목:
+핵심 내용:
+aside 팁박스 방향:
+#아웃트로
+담당자 조언 인용 + 에디터 응원 멘트 방향:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  B:`💬 타이틀 후보
+1안 (기능 혜택형):
+2안 (문제 해결형):
+3안 (행동 유도형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 고객의 핵심 고민
+(예: 리뷰가 많은데 고객이 안 읽는다 / 리뷰 관리에 시간이 너무 많이 든다)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+독자 페인포인트 공감 + 기능 한 줄 소개:
+#섹션1 어디에서 노출되나요
+노출 위치 설명:
+#섹션2 어떻게 구성되나요
+구성 요소 목록:
+#섹션3 어떻게 설정하나요
+설정 경로:
+주의사항:
+#아웃트로
+기능 활용 권유 방향:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  C:`💬 타이틀 후보
+1안 (팁 나열형):
+2안 (문제 해결형):
+3안 (How-to형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 고객의 핵심 고민
+(예: 기능은 쓰고 있는데 전환율이 안 오른다 / 어떤 설정이 더 효과적인지 모르겠다)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+독자가 공감할 실무 문제 상황:
+#Tip1
+소제목:
+핵심 내용:
+스크린샷 포인트:
+#Tip2
+소제목:
+핵심 내용:
+스크린샷 포인트:
+#Tip3
+소제목:
+핵심 내용:
+스크린샷 포인트:
+#아웃트로
+핵심 정리 방향:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  D:`💬 타이틀 후보
+1안 (데이터 분석형):
+2안 (인사이트 중심형):
+3안 (트렌드 제시형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+분석 대상·기간·방법론:
+📌 콘텐츠 흐름
+#인트로
+이 분석이 의미있는 배경:
+독자가 얻을 인사이트:
+#섹션1
+분석 항목:
+주요 수치·패턴:
+실무 해석:
+#섹션2
+분석 항목:
+주요 수치·패턴:
+실무 해석:
+#섹션3
+분석 항목:
+주요 수치·패턴:
+실무 해석:
+#아웃트로
+분석 요약 + 실무 적용 방향:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  E:`💬 타이틀 후보
+1안 (성장 스토리형):
+2안 (직무 인사이트형):
+3안 (문화 소개형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+인터뷰이 소개 + 이 사람의 이야기가 흥미로운 이유:
+#Q1 자기소개 및 합류 계기
+#Q2 크리마에서 맡은 역할
+#Q3 가장 기억에 남는 프로젝트 또는 성장 경험
+#Q4 이 직무에서 가장 중요한 역량
+#Q5 크리마만의 문화 또는 일하는 방식
+#Q6 앞으로의 목표
+#Q7 크리마에 관심 있는 분들에게 한마디
+#아웃트로
+응원 멘트 + 채용 페이지 CTA 방향:`,
+
+  F:`💬 타이틀 후보
+1안 (소식 나열형):
+2안 (하이라이트 중심형):
+3안 (시즌감형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+계절·시기 감성 오프너 방향:
+#빠른요약
+⚡ 주요 내용 3줄:
+#신규 고객사
+각 브랜드 소개 방향 (산업 카테고리 + 1~2문장):
+#내부 소식
+세미나·행사 소개 방향 (없으면 생략):
+#아웃트로
+다음 달 기대 멘트 방향:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  G:`💬 타이틀 후보
+1안 (업데이트 요약형):
+2안 (고객 효용 중심형):
+3안 (기능 소개형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#빠른요약
+⚡ 업데이트 항목 목록:
+#기능1
+기능명:
+What(무엇이 바뀌었나):
+Why(고객 효용):
+#기능2
+기능명:
+What:
+Why:
+#예고
+다가오는 업데이트 항목 (없으면 생략):
+#아웃트로
+문의·피드백 CTA 방향:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  I:`💬 타이틀 후보
+1안 (트렌드 분석형):
+2안 (전략 가이드형):
+3안 (문제 해결형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 고객의 핵심 고민
+(예: 전환율이 정체된 이유를 모르겠다 / 재구매율을 높이고 싶다)
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+이 주제가 왜 중요한지 (시장 트렌드 or 데이터):
+#섹션1
+개념·전략명:
+왜 중요한가:
+어떻게 적용하나:
+#섹션2
+개념·전략명:
+왜 중요한가:
+어떻게 적용하나:
+#섹션3
+개념·전략명:
+왜 중요한가:
+어떻게 적용하나:
+#섹션4
+개념·전략명:
+왜 중요한가:
+어떻게 적용하나:
+#아웃트로
+핵심 요약 + 실무 적용 권유:
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+
+  FREE:`💬 타이틀 후보
+1안 (정보 전달형):
+2안 (설득형):
+3안 (스토리텔링형):
+📌 콘텐츠 주제
+📌 콘텐츠 목적
+(구매 여정: 인지 / 고려 / 전환)
+📌 고객의 핵심 고민
+📌 SEO 키워드
+핵심 키워드:
+연관 키워드:
+📌 콘텐츠 흐름
+#인트로
+방향 (1문장):
+#섹션1
+소제목:
+내용 (1~2문장):
+#섹션2
+소제목:
+내용 (1~2문장):
+#섹션3
+소제목:
+내용 (1~2문장):
+#아웃트로
+방향 (1문장):
+#유도 액션 (CTA)
+CTA 문구:
+연결 URL 또는 목적지:
+허들 수준: 낮음 / 중간 / 높음`,
+};
+
+// ============================================================
 // VIEW MANAGEMENT
 // ============================================================
 function show(v) {
@@ -384,21 +667,14 @@ async function generate() {
   let userMsg;
 
   if (genMode==='outline') {
-    userMsg=`다음 정보로 크리마 블로그 아티클 개요를 간결하게 작성해줘.
+    const struct = OUTLINE_STRUCTS[cat] || OUTLINE_STRUCTS.FREE;
+    userMsg=`다음 정보로 크리마 블로그 아티클 개요를 작성해줘.
+카테고리 프레임워크에 맞게 각 섹션 방향을 구체적으로 채워줘.
+맨 앞에 제목이나 헤더를 추가하지 말고 📌 타이틀 항목부터 바로 시작해줘.
 
 ${ctx}${docNote}
 
-형식:
-제목(안):
-핵심 키워드:
-소구 포인트:
----
-[인트로] 방향: (1문장)
-[섹션1] 소제목: / 내용: (1~2문장)
-[섹션2] 소제목: / 내용: (1~2문장)
-[섹션3] 소제목: / 내용: (1~2문장)
-[아웃트로] 방향: (1문장)
-[메타 디스크립션]: (80자 이내)`;
+${struct}`;
   } else {
     const prev = currentText || (chatHistory.filter(m=>m.role==='assistant').pop()?.content) || '';
     userMsg=`다음 재료와 개요를 바탕으로 크리마 블로그 초안을 작성해줘.
@@ -409,12 +685,65 @@ ${ctx}${docNote}
 ## 개요
 ${prev}
 
-규칙:
+## 작성 규칙
+
+${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
+개요에서 제안한 타이틀 후보 3가지를 아래 형식으로 반드시 먼저 출력해줘.
+본문에 실제 사용한 안에 [추천] 표기 + 왜 이 타이틀을 골랐는지 한 줄 근거를 꼭 포함해줘.
+
+**💬 타이틀 후보**
+1안 ([타입명]): [타이틀 텍스트]
+2안 ([타입명]): [타이틀 텍스트] (추천 — 이 타이틀이 독자 페인포인트를 가장 직접적으로 건드리기 때문)
+3안 ([타입명]): [타이틀 텍스트]
+
+---` : ''}
+
+### 2. 인트로 직후 — 카테고리별 자동 선택
+아래 규칙에 따라 인트로 바로 다음에 삽입해줘.
+
+- 카테고리 D, I (인사이트/연구소형, 긴 분석글) → **목차 삽입**
+  형식:
+  **콘텐츠 순서**
+  - [섹션1 제목](#) 
+  - [섹션2 제목](#)
+  - [섹션3 제목](#)
+
+- 카테고리 A, B, C, E, F, G (스토리/서비스/인터뷰형) → **요약 박스 삽입**
+  형식:
+  > ✏️ **콘텐츠 요약**
+  > - 핵심 포인트 1 (1문장)
+  > - 핵심 포인트 2 (1문장)
+  > - 핵심 포인트 3 (1문장)
+
+### 3. 내용 깊이
+- 텍스트 길이 제한 없이 독자가 충분히 설득될 수 있도록 상세하게 작성
+- 나중에 줄이는 한이 있더라도 지금은 논리와 근거를 최대한 풍성하게
+- 각 섹션마다 독자의 예상 반론을 먼저 다루고 설득해줘
+
+### 4. 이미지 시각화 가이드
+- 본문의 {{img:...}} 자리를 아래 형식의 Image Brief로 대체해줘
+
+> 📐 **Image Brief**
+> - 차트 종류: (가로 막대 / 인포그래픽 / 비교표 등)
+> - 포함 데이터: X축 — / Y축 — / 항목 —
+> - 핵심 강조 포인트: (강조할 수치나 구간)
+> - 톤&무드: 크리마 브랜드 컬러 #3182f6, 깔끔한 플랫 스타일
+
+### 5. 외부 자료 인용 (반드시 지킬 것)
+- 숫자, %, 통계, 비율, 시장 동향이 등장하는 모든 문장 끝에 출처 괄호를 붙여줘
+- URL을 아는 경우: (출처명, 날짜, URL: https://실제주소)
+- URL을 모르는 경우: (출처명, URL: 확인필요)
+- 예시:
+  재구매율은 평균 35~45% 수준이에요. (업계 평균 추정, URL: 확인필요)
+  수수료가 2.8%에서 5%로 올랐어요. (네이버 스마트스토어 공지, 2024.03, URL: 확인필요)
+- 출처 없이 수치만 쓰는 건 절대 금지. 차라리 수치를 빼거나 "업계 추정"으로 표기할 것
+- 지어낸 수치 금지
+
+### 6. 포맷
 - 카테고리 ${cat} 프레임워크 적용
 - 해요체 80%+, 금칙어 없이, 문단 3~4문장
-- 이미지 자리({{img:설명}}), 팁박스, 설정경로는 꼭 필요한 곳에만 간결하게
-- 마지막 줄에 [메타 디스크립션] 한 줄 (80자 이내)
-- 군더더기 없이 핵심만. 총 2500자 내외로 작성해줘.`;
+- 팁박스, 설정경로는 꼭 필요한 곳에만
+- 마지막 줄에 [메타 디스크립션] 한 줄 (80자 이내)`;
   }
 
   // Always use a fresh single-message array — no accumulated history bloat
@@ -425,7 +754,7 @@ ${prev}
     const res=await fetch('/api/generate',{
       method:'POST',
       body:JSON.stringify({
-        max_tokens: genMode==='outline' ? 1200 : 3500,
+        max_tokens: genMode==='outline' ? 2000 : 6000,
         messages: msgs,
         stream:true,
       }),
@@ -482,7 +811,7 @@ ${prev}
             scheduleRender();
           }
           if(d.type==='message_delta'&&d.delta?.stop_reason==='max_tokens'){
-            full+='\n\n*(개요가 중간에 잘렸어요. 채팅으로 "이어서 써줘"라고 요청하거나 지금 바로 본문 생성하기를 눌러도 돼요.)*';
+            full+='\n\n*(초안이 중간에 잘렸어요. 채팅으로 "이어서 써줘"라고 요청하거나 지금 바로 본문 생성하기를 눌러도 돼요.)*';
           }
         }catch{}
       }
@@ -577,7 +906,27 @@ async function sendChat() {
   document.getElementById('chat-send').disabled=true;
 
   // Step 1: Generate revised full content → stream directly to left panel
-  const revisionPrompt = `다음은 현재 작성된 콘텐츠야:\n\n${currentText}\n\n수정 요청: ${msg}\n\n위 콘텐츠를 수정 요청에 맞게 고쳐서 전체 내용을 다시 출력해줘. 형식과 구조는 그대로 유지하고, 수정된 부분만 반영해. 마크다운 형식 그대로.`;
+  // 이어쓰기 의도 감지
+  const isContinue = /이어서|이어|계속|잇|마저|완성|이어써|이어쓰/.test(msg);
+  let revisionPrompt;
+  if (isContinue) {
+    // outline/full 모두 이어쓰기 처리
+    const modeLabel = genMode==='outline' ? '개요' : '초안';
+    revisionPrompt = `다음 ${modeLabel}가 중간에 잘렸어. 잘린 지점 이후 내용만 써줘.
+규칙:
+- 이미 작성된 내용은 절대 반복하지 말 것
+- 마지막으로 완성된 문장 다음부터 바로 이어서 쓸 것
+- 쓰다 만 섹션이 있으면 그 섹션 내용부터 완성한 뒤 나머지 섹션을 써줄 것
+- 앞에 "이어서 작성합니다" 같은 안내 문구 없이 바로 본문으로 시작할 것
+- 마크다운 형식 그대로 유지
+
+현재까지 작성된 내용:
+${currentText}`;
+  } else if (genMode==='outline') {
+    revisionPrompt = `다음은 현재 작성된 개요야:\n\n${currentText}\n\n수정 요청: ${msg}\n\n위 개요를 수정 요청에 맞게 고쳐서 전체 개요를 다시 출력해줘. 마크다운 형식 그대로.`;
+  } else {
+    revisionPrompt = `다음은 현재 작성된 콘텐츠야:\n\n${currentText}\n\n수정 요청: ${msg}\n\n위 콘텐츠를 수정 요청에 맞게 고쳐서 전체 내용을 다시 출력해줘. 형식과 구조는 그대로 유지하고, 수정된 부분만 반영해. 마크다운 형식 그대로.`;
+  }
 
   const tid='t'+Date.now();
   addTyping(tid);
@@ -586,7 +935,7 @@ async function sendChat() {
     const res = await fetch('/api/generate', {
       method:'POST',
       body: JSON.stringify({
-        max_tokens: 3500,
+        max_tokens: isContinue ? 6000 : 3500,
         messages: [{role:'user', content: revisionPrompt}],
         stream: true,
       }),
@@ -636,12 +985,20 @@ async function sendChat() {
         }catch{}
       }
     }
-    // Final render
+    // Final render — 이어쓰기면 append, 아니면 replace
     disp.style.opacity = '1';
-    disp.innerHTML = mdRender(revised);
-    currentText = revised;
-    chatHistory.push({role:'user', content: msg});
-    chatHistory.push({role:'assistant', content: revised});
+    if (isContinue) {
+      const merged = currentText.trimEnd() + '\n' + revised.trimStart();
+      disp.innerHTML = mdRender(merged);
+      currentText = merged;
+      chatHistory.push({role:'user', content: msg});
+      chatHistory.push({role:'assistant', content: merged});
+    } else {
+      disp.innerHTML = mdRender(revised);
+      currentText = revised;
+      chatHistory.push({role:'user', content: msg});
+      chatHistory.push({role:'assistant', content: revised});
+    }
     refreshGenUI();
     document.getElementById('next-btn').disabled=false;
 
@@ -716,6 +1073,22 @@ function mdRender(text) {
   const lines=cleaned.split('\n');
   const out=[];
   let listItems=[],listType=null;
+  function linkify(s){
+    // URL 포함 출처: (출처명, 날짜, URL: https://...) → 하이퍼링크
+    s = s.replace(/\(([^)]*?),\s*URL:\s*(https?:\/\/[^)]+)\)/g, function(match, cite, url){
+      return '(<a href="'+url.trim()+'" target="_blank" rel="noopener" style="color:#3182f6;text-decoration:underline;font-size:.85em">'+cite.trim()+'</a>)';
+    });
+    // URL 확인필요: (출처명, URL: 확인필요) → 노란 뱃지
+    s = s.replace(/\(([^)]*?),?\s*URL:\s*(확인필요|확인 필요)\)/g, function(match, cite){
+      return '(<span style="color:#4e5968;font-size:.85em">'+cite.trim()+'</span> <span style="background:#fef3c7;color:#92400e;font-size:.75rem;padding:1px 6px;border-radius:4px;font-weight:600">링크 확인 필요</span>)';
+    });
+    // 수치 뒤 단순 출처 (업계 추정, 복수 보도 기준 등) URL 없는 경우 → 뱃지
+    s = s.replace(/\((업계 추정|복수 보도 기준|업계 평균 추정)[^)]*\)/g, function(match){
+      const inner = match.slice(1,-1);
+      return '(<span style="color:#4e5968;font-size:.85em">'+inner+'</span> <span style="background:#fef3c7;color:#92400e;font-size:.75rem;padding:1px 6px;border-radius:4px;font-weight:600">링크 확인 필요</span>)';
+    });
+    return s;
+  }
   function fmt(s){
     let r=s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     r=r.replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>');
@@ -736,15 +1109,82 @@ function mdRender(text) {
     if(/^[\\n\s]+$/.test(t) && !/[가-힣a-zA-Z0-9]/.test(t)){flush();continue;}
     if(!t){flush();out.push('<div style="height:5px"></div>');continue;}
     if(t.startsWith('# ')){flush();out.push(`<h1>${fmt(t.slice(2))}</h1>`);continue;}
+    if(t==='**💬 타이틀 후보**'||t==='💬 타이틀 후보'){
+      flush();
+      out.push('<div style="margin:20px 0 8px;font-size:1rem;font-weight:800;color:#1A1C1E">💬 타이틀 후보</div>');
+      continue;
+    }
     if(t.startsWith('## ')){flush();out.push(`<h2>${fmt(t.slice(3))}</h2>`);continue;}
     if(t.startsWith('### ')){flush();out.push(`<h3>${fmt(t.slice(4))}</h3>`);continue;}
     if(t.startsWith('#### ')){flush();out.push(`<h4>${fmt(t.slice(5))}</h4>`);continue;}
-    if(t.startsWith('> ')){flush();out.push(`<blockquote>${fmt(t.slice(2))}</blockquote>`);continue;}
-    if(t==='---'||t==='***'){flush();out.push('<hr>');continue;}
+    if(t.startsWith('> ')){
+      // blockquote 연속 줄은 하나로 합치기
+      const bline = fmt(t.slice(2));
+      if(out.length && out[out.length-1].startsWith('<blockquote')){
+        out[out.length-1] = out[out.length-1].replace(/<\/blockquote>$/, '<br>' + bline + '</blockquote>');
+      } else {
+        out.push(`<blockquote>${bline}</blockquote>`);
+      }
+      continue;
+    }
+    if(/^💬/.test(t)){
+      flush();
+      const body2=t.slice(2).trim();
+      out.push('<div style="margin:20px 0 8px;font-size:1rem;font-weight:800;color:#1A1C1E">💬 '+fmt(body2)+'</div>');
+      continue;
+    }
+    if(/^📌/.test(t)){flush();const body=t.slice(2).trim();const hr=out.length?'<hr style="border:none;border-top:1px solid #e5e8eb;margin:18px 0 12px">':'';out.push(hr+'<div style="margin:0 0 6px;font-size:1rem;font-weight:800;color:#191c1e">📌 '+fmt(body)+'</div>');continue;}
+
+    if(/^(핵심 키워드|연관 키워드):/.test(t)){flush();const ci=t.indexOf(':');const lbl=t.slice(0,ci+1),val=t.slice(ci+1).trim();out.push('<div style="margin:2px 0;padding:3px 10px 3px 18px;font-size:.88rem"><span style="font-weight:600;color:#374151">'+fmt(lbl)+'</span>'+(val?'<span style="color:#4e5968"> '+fmt(val)+'</span>':'')+'</div>');continue;}
+    if(/^#[^\s#]/.test(t)){flush();const rest=t.slice(1).trim();out.push('<div style="margin:16px 0 4px;font-weight:700;color:#191c1e;font-size:1rem">'+fmt(rest)+'</div>');continue;}
+    if(/^발행 후 유도할 액션/.test(t)){flush();out.push('<div style="margin:10px 0 3px;font-weight:600;color:#374151;font-size:.88rem">'+fmt(t)+'</div>');continue;}
+    if(t==='---'||t==='***'){flush();out.push('<hr style="border:none;border-top:1.5px solid #e5e8eb;margin:16px 0 10px">');continue;}
+    // ── 개요 상단 필드 헤더 (타이틀, 콘텐츠 주제 등) → 하늘색 배경
+    if(/^(타이틀 후보|타이틀|콘텐츠 주제|콘텐츠 목적|SEO 키워드|콘텐츠 흐름|고객의 핵심 고민)$/.test(t)){
+      flush();
+      out.push(`<div style="margin:18px 0 5px;padding:4px 12px;background:#dbeafe;color:#1d4ed8;font-weight:700;border-radius:6px;font-size:.83rem;display:inline-block">${fmt(t)}</div>`);
+      continue;
+    }
+    // ── 타이틀 옵션 (1안, 2안, 3안)
+    if(/^\d안/.test(t)){
+      flush();
+      const m=t.match(/^(\d안)\s*(\([^)]*\))?:?\s*(.*)/);
+      if(m){
+        const num=m[1],type=m[2]||'',rest=m[3]||'';
+        const recMatch=rest.match(/^(.*?)\s*\(\s*추천\s*[—\-]\s*(.*?)\s*\)\s*$/);
+        let inner='';
+        if(recMatch){
+          const title=fmt(recMatch[1].trim());
+          const reason=fmt(recMatch[2].trim());
+          const badge='<span style="display:inline-block;background:#dbeafe;color:#1d4ed8;font-weight:700;font-size:.75rem;padding:2px 8px;border-radius:20px;margin:0 6px;vertical-align:middle">추천</span>';
+          inner='<span style="color:#191c1e;font-size:.9rem">'+title+'</span>'+(type?'<span style="color:#94a3b8;font-size:.78rem;margin-left:6px">'+fmt(type)+'</span>':'')+badge+'<span style="color:#4e5968;font-size:.82rem;font-style:italic">— '+reason+'</span>';
+        } else {
+          inner='<span style="color:#191c1e;font-size:.9rem">'+fmt(rest)+'</span>'+(type?'<span style="color:#94a3b8;font-size:.78rem;margin-left:6px">'+fmt(type)+'</span>':'');
+        }
+        out.push('<div style="margin:5px 0;padding:3px 0"><span style="font-weight:700;color:#191c1e;font-size:.9rem;min-width:28px;display:inline-block">'+fmt(num)+'</span><span style="margin-left:8px">'+inner+'</span></div>');
+      }
+      continue;
+    }
+    // ── SEO 서브항목 (핵심 키워드:, 연관 키워드:)
+    if(/^(핵심 키워드|연관 키워드):/.test(t)){
+      flush();
+      const ci=t.indexOf(':');
+      const lbl=t.slice(0,ci+1),val=t.slice(ci+1).trim();
+      out.push(`<div style="margin:2px 0;padding:3px 10px 3px 18px;font-size:.88rem"><span style="font-weight:600;color:#374151">${fmt(lbl)}</span>${val?'<span style="color:#4e5968"> '+fmt(val)+'</span>':''}</div>`);
+      continue;
+    }
+    // ── 섹션 레이블 ([인트로], [섹션N] 등) → 볼드만
+    if(/^\[.+\]/.test(t)){
+      flush();
+      const lb=t.match(/^\[(.+?)\]/)[0];
+      const rest=t.slice(lb.length).trim();
+      out.push(`<div style="margin:12px 0 2px"><span style="font-weight:700;color:#191c1e;font-size:.9rem">${fmt(lb)}</span>${rest?'<span style="color:#4e5968;font-size:.9rem"> '+fmt(rest)+'</span>':''}</div>`);
+      continue;
+    }
     if(t.startsWith('- ')){if(listType!=='ul'){flush();listType='ul';}listItems.push(`<li>${fmt(t.slice(2))}</li>`);continue;}
     if(/^\d+\. /.test(t)){if(listType!=='ol'){flush();listType='ol';}listItems.push(`<li>${fmt(t.replace(/^\d+\. /,''))}</li>`);continue;}
     if(t.startsWith('→ ')){flush();out.push(`<p style="padding-left:1rem;color:#4e5968"><span style="color:#3182f6;font-weight:600">→</span> ${fmt(t.slice(2))}</p>`);continue;}
-    flush();out.push(`<p>${fmt(t)}</p>`);
+    flush();out.push(`<p>${linkify(fmt(t))}</p>`);
   }
   flush();
   return out.join('');
