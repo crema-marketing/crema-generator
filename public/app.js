@@ -8,6 +8,7 @@ let genMode = 'outline';
 let chatHistory = [];
 let currentText = '';
 let busy = false;
+let abortController = null;
 let currentView = 'cat'; // 'cat' | 'form' | 'gen'
 
 // ============================================================
@@ -650,6 +651,13 @@ function refreshGenUI() {
   updateSteps('gen');
 }
 
+function stopGeneration() {
+  if (abortController) {
+    abortController.abort();
+    abortController = null;
+  }
+}
+
 async function generate() {
   if (busy) return;
   busy=true;
@@ -749,9 +757,14 @@ ${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
   const msgs = [{role:'user', content:userMsg}];
   if (genMode==='outline') chatHistory = [{role:'user', content:userMsg}];
 
+  if (abortController) { abortController.abort(); abortController = null; }
+  abortController = new AbortController();
+  document.getElementById('stop-btn-stream')?.classList.remove('hidden');
   try {
     const res=await fetch('/api/generate',{
       method:'POST',
+      signal: abortController.signal,
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         max_tokens: genMode==='outline' ? 2000 : 6000,
         messages: msgs,
@@ -842,6 +855,8 @@ ${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
   } finally {
     loader.classList.add('hidden');
     busy=false;
+    abortController=null;
+    document.getElementById('stop-btn-stream')?.classList.add('hidden');
   }
 }
 
@@ -851,6 +866,7 @@ function handleNext() {
     const snap = document.getElementById('content-display').innerText;
     if(snap.trim()) currentText = snap;
     // Stop any ongoing generation cleanly
+    stopGeneration();
     busy=false;
     genMode='full';
     chatHistory=[];
