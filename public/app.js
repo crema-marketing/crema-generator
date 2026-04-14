@@ -37,27 +37,23 @@ const FIELDS = {
     {id:'transcript',label:'인터뷰 녹취록 또는 Q&A 원문',type:'ta',ph:'인터뷰 내용을 붙여넣어 주세요.\n없으면 브랜드에 대해 알고 있는 내용을 입력해 주세요.',req:true,rows:9},
     {id:'fmt',label:'콘텐츠 형식',type:'sel',opts:['스토리텔링 (에디터 내러티브)','Q&A (질문-답변 형식)'],req:true},
     {id:'products',label:'도입한 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
-    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 자사몰 CRM 전략, 고객 커뮤니티'},
   ],
   B:[
     {id:'fname',label:'기능명',type:'text',ph:'예) AI 리뷰 요약',req:true},
     {id:'fdesc',label:'기능 설명 및 주요 내용',type:'ta',ph:'기능의 작동 방식, 노출 위치, 설정 경로 등을 설명해 주세요.',req:true,rows:6},
     {id:'benefit',label:'고객이 얻는 핵심 효과',type:'text',ph:'예) 리뷰 읽는 시간 절약, 구매 전환율 향상'},
     {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
-    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) AI 리뷰 요약, 쇼핑몰 리뷰 관리'},
   ],
   C:[
     {id:'topic',label:'아티클 주제',type:'text',ph:'예) 크리마 리뷰 AI 분석 기능 활용법',req:true},
     {id:'feature',label:'소개할 크리마 기능 또는 서비스',type:'text',ph:'예) 리뷰 AI 요약, 리뷰 노출 설정',req:true},
     {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
-    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 크리마 리뷰 활용법, AI 리뷰 분석'},
     {id:'extra',label:'포함할 사례 또는 참고 자료',type:'ta',ph:'고객사 사례, 데이터 등을 입력해 주세요.',rows:4},
   ],
   D:[
     {id:'topic',label:'아티클 주제',type:'text',ph:'예) 이커머스 리뷰 데이터로 보는 소비 트렌드',req:true},
     {id:'angle',label:'주요 관점 또는 논지',type:'ta',ph:'이 글에서 가장 강조하고 싶은 인사이트나 방향을 설명해 주세요.',req:true,rows:4},
     {id:'products',label:'해당 크리마 솔루션',type:'chk',opts:['크리마 리뷰','크리마 핏','크리마 인사이트','크리마 상품추천']},
-    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 이커머스 리뷰 트렌드, 소비자 구매 패턴'},
     {id:'data',label:'포함할 데이터 또는 수치',type:'ta',ph:'크리마 보유 통계, 연구 결과, 사례 수치 등을 입력해 주세요.',rows:4},
   ],
   E:[
@@ -80,7 +76,6 @@ const FIELDS = {
   I:[
     {id:'topic',label:'아티클 주제',type:'text',ph:'예) 2025 이커머스 리뷰 트렌드 분석',req:true},
     {id:'angle',label:'주요 관점 또는 논지',type:'ta',ph:'이 글에서 다루고 싶은 인사이트나 방향을 설명해 주세요.',req:true,rows:4},
-    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 이커머스 트렌드, 자사몰 성장 전략'},
     {id:'data',label:'포함할 데이터 또는 사례',type:'ta',ph:'업계 통계, 사례, 수치 등이 있으면 입력해 주세요.',rows:4},
   ],
   FREE:[
@@ -88,7 +83,6 @@ const FIELDS = {
     {id:'purpose',label:'이 콘텐츠의 목적',type:'text',ph:'예) 신규 제휴 서비스 소개, 프로모션 참여 유도, 이벤트 안내'},
     {id:'target',label:'타깃 독자',type:'text',ph:'예) 자사몰 운영자, 크리마 기존 고객사, 이커머스 마케터'},
     {id:'content',label:'담고 싶은 주요 내용',type:'ta',ph:'핵심 메시지, 포함할 정보, 전달하고 싶은 포인트를 자유롭게 적어주세요.',req:true,rows:8},
-    {id:'kw',label:'SEO 핵심 키워드',type:'textseo',ph:'예) 이커머스 프로모션, 자사몰 마케팅'},
   ],
 };
 
