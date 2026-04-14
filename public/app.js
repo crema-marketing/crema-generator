@@ -643,11 +643,8 @@ function refreshGenUI() {
   const isOut = genMode==='outline';
   document.getElementById('gen-title').textContent = isOut?'콘텐츠 개요 검토하기':'완성된 초안 확인하기';
   const nb=document.getElementById('next-btn');
-  nb.innerHTML=isOut?'본문 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>':'✓ 초안 완성';
+  nb.innerHTML=isOut?'초안 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>':'✓ 초안 완성';
   nb.disabled=true;
-  // 베리에이션 버튼: full 모드 시작 즉시 노출, outline 모드엔 숨김
-  const vb = document.getElementById('var-goto-btn');
-  if(vb) { if(isOut) vb.classList.add('hidden'); else vb.classList.remove('hidden'); }
   updateSteps('gen');
 }
 
@@ -805,7 +802,7 @@ ${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
               if(genMode==='outline'){
                 const nb=document.getElementById('next-btn');
                 nb.disabled=false;
-                nb.innerHTML='본문 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>';
+                nb.innerHTML='초안 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>';
               }
             }
             scheduleRender();
@@ -837,7 +834,7 @@ ${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
     if(genMode==='outline'){
       const nb=document.getElementById('next-btn');
       nb.disabled=false;
-      nb.innerHTML='본문 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>';
+      nb.innerHTML='초안 생성하기 <span class="material-symbols-outlined text-sm" style="vertical-align:middle">arrow_forward</span>';
     }
     if(genMode==='outline') chatHistory.pop();
   } finally {
@@ -875,13 +872,13 @@ function toggleChat() {
     panel.classList.add('flex');
     btn.classList.add('bg-primary/10','border-primary/30','text-primary');
     btn.classList.remove('text-on-surface-variant');
-    label.textContent = '에디터 닫기';
+    label.textContent = 'AI 에디터 닫기';
   } else {
     panel.classList.add('hidden');
     panel.classList.remove('flex');
     btn.classList.remove('bg-primary/10','border-primary/30','text-primary');
     btn.classList.add('text-on-surface-variant');
-    label.textContent = 'AI 에디터';
+    label.textContent = 'AI 에디터로 수정';
   }
 }
 
@@ -1200,13 +1197,45 @@ let varTexts = { home: '', naver: '', brunch: '', cafe24: '' };
 let varBusy = { naver: false, brunch: false, cafe24: false };
 
 const VAR_PROMPTS = {
-  naver: `이 최종안을 네이버 블로그 로직에 맞게 바꿔줘. 제목(H1~H2)은 크고 명확하게 유지하고, 핵심 키워드 반복 빈도를 조금 더 높이고, 문단을 더 잘게 쪼개서 모바일 가독성을 극대화해 줘. 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로만 사용해줘.`,
+  naver: `이 최종안을 네이버 블로그 SEO에 최적화해줘.
+
+[구조 & 키워드]
+- 제목(H1~H2)은 크고 명확하게 유지하고, H2 소제목에도 롱테일 키워드를 자연스럽게 삽입할 것
+- 첫 문단 100자 이내에 핵심 키워드를 1회 포함할 것 (C-Rank 알고리즘 반영)
+- 핵심 키워드 반복 빈도를 높이되 자연스럽게 유지
+- 문단을 더 잘게 쪼개서 모바일 가독성을 극대화할 것
+- 이모지는 섹션 타이틀에만 1개씩, 전체 3~4개 이내로만 사용할 것
+
+[SEO 보강]
+- 원본에 수치나 데이터가 있다면 소제목이나 문장 앞단으로 끌어와 강조할 것
+- 내부 링크 앵커 텍스트는 키워드 중심으로 구성할 것 (예: "크리마 리뷰 기능 보기"처럼)
+
+[GEO 보강 — AI 검색 최적화]
+- 크리마 서비스가 처음 등장하는 문장은 "크리마 리뷰는 ~하는 솔루션입니다" 형식으로 정의형 문장으로 작성할 것
+- 글 마지막 아웃트로 뒤에 아래 형식의 FAQ 블록을 2~3개 추가할 것:
+  ## 자주 묻는 질문
+  **Q. [질문]**
+  A. [2~3문장 답변]
+- 글 맨 마지막에 관련 해시태그를 한 줄로 추가할 것 (예: #자사몰마케팅 #리뷰관리 #크리마리뷰)`,
+
   brunch: `이 글을 브런치 스타일로 변환해줘. 아래 규칙을 반드시 지킬 것:
-1. 제목(# H1)과 소제목(## H2, ### H3)은 한글 20자 이내로 자연스럽게 압축해줘. 단, ## ### 기호는 반드시 유지할 것
+1. 제목(# H1)과 소제목(## H2, ### H3)은 한글 20자 이내로 자연스럽게 압축해줘. 제목에 연도("2025년") 또는 숫자("3가지")가 포함되면 유지할 것. 단, ## ### 기호는 반드시 유지할 것
 2. **볼드**, --- 구분선, - 리스트 등 마크다운 형식은 원본 그대로 유지
 3. 이모지는 본문에서 모두 제거할 것 (제목 포함)
 4. 화자, 인칭, 내용, 구조는 절대 바꾸지 말 것
-5. 본문 문장의 어투만 (~해요 → ~다, ~했다) 담담하게 바꿀 것`,
+5. 본문 문장의 어투만 (~해요 → ~다, ~했다) 담담하게 바꿀 것
+
+[SEO 보강]
+- 인트로 첫 문장을 독립형 명제 또는 질문형으로 강화할 것 (예: "이커머스 재구매율은 왜 쉽게 오르지 않는가") — Google snippet 추출 대상
+- 원본 인트로가 단순 안내형이면 핵심 주제를 한 문장으로 압축해 첫 줄에 배치할 것
+
+[GEO 보강 — AI 검색 최적화]
+- 글 맨 마지막에 3줄 이내의 TL;DR 요약을 추가할 것:
+  **TL;DR**
+  - [핵심 내용 1]
+  - [핵심 내용 2]
+  - [핵심 내용 3]`,
+
   cafe24: `이 원고를 카페24 앱마켓 소개 페이지에 맞게 변환해줘.
 
 [어조]
@@ -1218,7 +1247,21 @@ const VAR_PROMPTS = {
 - 긴 줄글을 분해해서 혜택 중심의 불릿 포인트(- 또는 ✔️) 리스트로 변환할 것
 - 원본에 성과 데이터나 수치가 있다면 소제목이나 리스트 앞단으로 끌어와 강조할 것
 - "카페24 쇼핑몰에 바로 연동해서~", "카페24 운영자라면 복잡한 개발 없이~" 같은 플랫폼 시너지 키워드를 1~2회 자연스럽게 삽입할 것
-- 아웃트로는 "지금 바로 크리마를 연동하고 매출 변화를 경험해보세요"와 같은 행동 유도로 마무리할 것`,
+- 아웃트로는 "지금 바로 크리마를 연동하고 매출 변화를 경험해보세요"와 같은 행동 유도로 마무리할 것
+
+[SEO 보강]
+- 주요 H2 소제목에 "크리마 리뷰", "카페24 리뷰 관리 앱" 등 앱 이름·카테고리명을 포함할 것
+- 도입 효과 수치(전환율, 재구매율 등)가 있다면 제목 또는 첫 문단 근처에 배치해 강조할 것
+- 내부 링크 앵커 텍스트는 키워드 중심으로 구성할 것
+
+[GEO 보강 — AI 검색 최적화]
+- 기능 목록은 정형화된 리스트 구조로 작성할 것 (AI 스펙 비교 추출 최적화)
+- "카페24 + 크리마" 조합 키워드를 자연스럽게 2~3회 반복할 것
+- 글 맨 마지막에 3줄 이내의 TL;DR 요약을 추가할 것:
+  **TL;DR**
+  - [핵심 내용 1]
+  - [핵심 내용 2]
+  - [핵심 내용 3]`,
 };
 
 const VAR_DESCS = {
