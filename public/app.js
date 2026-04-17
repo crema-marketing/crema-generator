@@ -579,7 +579,7 @@ function buildDocLinkHtml() {
          링크 추가
        </button>`
     : '';
-  return `<div id="ff-doclink-container">${rows}</div>${addBtn}`;
+  return `<div id="ff-doclink-container" class="flex flex-col gap-2">${rows}</div>${addBtn}`;
 }
 
 function updateDocLink(idx, val) {
