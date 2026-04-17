@@ -768,6 +768,7 @@ ${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
       body:JSON.stringify({
         max_tokens: genMode==='outline' ? 2000 : 6000,
         messages: msgs,
+        outline: genMode==='outline',
         stream:true,
       }),
     });
@@ -952,6 +953,7 @@ ${currentText}`;
       body: JSON.stringify({
         max_tokens: isContinue ? 6000 : 3500,
         messages: [{role:'user', content: revisionPrompt}],
+        outline: genMode==='outline',
         stream: true,
       }),
     });
