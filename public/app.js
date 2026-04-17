@@ -538,6 +538,15 @@ function renderForm() {
         }).join('')
       }</div>`;
     }
+    // doclink: multi-URL input (special rendering, skip generic event binding)
+    if (f.id==='doclink') {
+      if (!Array.isArray(formVals['doclink'])) {
+        formVals['doclink'] = formVals['doclink'] ? [formVals['doclink']] : [''];
+      }
+      wrap.innerHTML = lbl + buildDocLinkHtml();
+      container.appendChild(wrap);
+      return;
+    }
     wrap.innerHTML = lbl+inp;
     if (f.type!=='chk'&&f.type!=='textseo') {
       const el = wrap.querySelector('input,textarea,select');
@@ -548,6 +557,50 @@ function renderForm() {
     }
     container.appendChild(wrap);
   });
+}
+
+function buildDocLinkHtml() {
+  const urls = Array.isArray(formVals['doclink']) ? formVals['doclink'] : [''];
+  const rows = urls.map((url, i) => {
+    const canRemove = urls.length > 1;
+    const removeBtn = canRemove
+      ? `<button type="button" onclick="removeDocLink(${i})" class="flex-shrink-0 w-9 h-[49px] flex items-center justify-center text-on-surface-variant hover:text-red-500 transition-colors">
+           <span class="material-symbols-outlined" style="font-size:20px">remove_circle_outline</span>
+         </button>`
+      : '';
+    return `<div class="flex gap-1.5 items-center">
+      <input type="url" class="form-input flex-1" placeholder="https://..." value="${escH(url)}" oninput="updateDocLink(${i},this.value)">
+      ${removeBtn}
+    </div>`;
+  }).join('');
+  const addBtn = urls.length < 5
+    ? `<button type="button" onclick="addDocLink()" class="mt-1 flex items-center gap-1 text-sm text-primary hover:opacity-70 transition-opacity">
+         <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">add_circle_outline</span>
+         링크 추가
+       </button>`
+    : '';
+  return `<div id="ff-doclink-container">${rows}</div>${addBtn}`;
+}
+
+function updateDocLink(idx, val) {
+  if (!Array.isArray(formVals['doclink'])) formVals['doclink'] = [''];
+  formVals['doclink'][idx] = val;
+}
+
+function addDocLink() {
+  if (!Array.isArray(formVals['doclink'])) formVals['doclink'] = [''];
+  if (formVals['doclink'].length >= 5) return;
+  formVals['doclink'].push('');
+  const wrap = document.getElementById('ff-doclink-container')?.parentElement;
+  if (wrap) wrap.innerHTML = buildDocLinkHtml();
+}
+
+function removeDocLink(idx) {
+  if (!Array.isArray(formVals['doclink'])) return;
+  formVals['doclink'].splice(idx, 1);
+  if (formVals['doclink'].length === 0) formVals['doclink'] = [''];
+  const wrap = document.getElementById('ff-doclink-container')?.parentElement;
+  if (wrap) wrap.innerHTML = buildDocLinkHtml();
 }
 
 function chkToggle(fid,opt,cb) {
@@ -669,20 +722,23 @@ async function generate() {
   document.getElementById('next-btn').disabled=true;
 
   const ctx=buildCtx();
-  const docLink=formVals['doclink'];
+  const rawDocLinks = formVals['doclink'];
+  const docLinks = (Array.isArray(rawDocLinks) ? rawDocLinks : (rawDocLinks ? [rawDocLinks] : [])).filter(u=>u&&u.trim());
   let docNote='';
-  if (docLink) {
+  if (docLinks.length) {
     document.getElementById('loader-msg').textContent='참고 문서를 불러오는 중...';
-    try {
-      const docRes=await fetch('/api/fetch-doc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:docLink})});
-      const docData=await docRes.json();
-      if (docData.content) {
-        docNote=`\n\n## 참고 문서 내용 (최우선 적용)\n아래는 크리마 공식 참고 자료예요. 크리마 서비스·기능을 서술할 때는 이 내용을 최우선으로 따르고, 외부 유사 서비스 정보로 대체하지 마세요.\n\n${docData.content}`;
-      } else {
-        docNote=`\n\n참고 문서: ${docLink} (내용 불러오기 실패 — 가능하면 이 URL의 내용을 참고하세요)`;
-      }
-    } catch {
-      docNote=`\n\n참고 문서: ${docLink} (내용 불러오기 실패 — 가능하면 이 URL의 내용을 참고하세요)`;
+    const fetched = await Promise.all(docLinks.map(async (url, i) => {
+      try {
+        const r = await fetch('/api/fetch-doc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+        const d = await r.json();
+        return d.content ? `### 참고 문서 ${docLinks.length>1?i+1+' ':''}\n${d.content}` : null;
+      } catch { return null; }
+    }));
+    const combined = fetched.filter(Boolean).join('\n\n');
+    if (combined) {
+      docNote=`\n\n## 참고 문서 (반드시 준수)\n아래는 크리마 공식 참고 자료야. 다음 규칙을 반드시 지켜줘:\n1. 크리마 서비스·기능을 소개하거나 정의하는 문장("~란", "~은/는", "~입니다/예요" 형태)은 반드시 이 문서의 내용을 근거로 작성할 것\n2. 이 문서에 없는 기능·특징은 임의로 추가하지 말 것\n3. 유사한 외부 서비스(채널톡, 인터폰 등)의 특성을 크리마 서비스에 적용하지 말 것\n\n${combined}`;
+    } else {
+      docNote=`\n\n참고 문서: ${docLinks.join(', ')}`;
     }
     document.getElementById('loader-msg').textContent=genMode==='outline'?'개요를 작성하고 있어요...':'초안을 작성하고 있어요. 잠시만 기다려 주세요...';
   }
@@ -781,7 +837,7 @@ ${!['F','G'].includes(cat) ? `### 1. 타이틀 섹션 (본문 최상단 필수)
       signal: abortController.signal,
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        max_tokens: genMode==='outline' ? 2000 : 6000,
+        max_tokens: genMode==='outline' ? 2000 : 8000,
         messages: msgs,
         outline: genMode==='outline',
         stream:true,
