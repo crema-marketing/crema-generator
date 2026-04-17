@@ -670,7 +670,22 @@ async function generate() {
 
   const ctx=buildCtx();
   const docLink=formVals['doclink'];
-  const docNote=docLink?`\n\n참고 문서: ${docLink} (작성 시 이 링크의 내용을 참고해주세요)`:'';
+  let docNote='';
+  if (docLink) {
+    document.getElementById('loader-msg').textContent='참고 문서를 불러오는 중...';
+    try {
+      const docRes=await fetch('/api/fetch-doc',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:docLink})});
+      const docData=await docRes.json();
+      if (docData.content) {
+        docNote=`\n\n## 참고 문서 내용 (최우선 적용)\n아래는 크리마 공식 참고 자료예요. 크리마 서비스·기능을 서술할 때는 이 내용을 최우선으로 따르고, 외부 유사 서비스 정보로 대체하지 마세요.\n\n${docData.content}`;
+      } else {
+        docNote=`\n\n참고 문서: ${docLink} (내용 불러오기 실패 — 가능하면 이 URL의 내용을 참고하세요)`;
+      }
+    } catch {
+      docNote=`\n\n참고 문서: ${docLink} (내용 불러오기 실패 — 가능하면 이 URL의 내용을 참고하세요)`;
+    }
+    document.getElementById('loader-msg').textContent=genMode==='outline'?'개요를 작성하고 있어요...':'초안을 작성하고 있어요. 잠시만 기다려 주세요...';
+  }
   let userMsg;
 
   if (genMode==='outline') {
