@@ -996,18 +996,27 @@ async function sendChat() {
   // 이어쓰기 의도 감지
   const isContinue = /이어서|이어|계속|잇|마저|완성|이어써|이어쓰/.test(msg);
   let revisionPrompt;
-  if (isContinue) {
-    // outline/full 모두 이어쓰기 처리
-    const modeLabel = genMode==='outline' ? '개요' : '초안';
-    revisionPrompt = `다음 ${modeLabel}가 중간에 잘렸어. 잘린 지점 이후 내용만 써줘.
+  if (isContinue && genMode==='outline') {
+    revisionPrompt = `아래 개요가 중간에 잘렸어. 개요의 나머지 부분만 이어서 써줘.
+⚠️ 중요: 본문 초안을 쓰는 게 아니야. 반드시 개요 형식(섹션 방향, 핵심 내용 등)으로만 작성해.
+규칙:
+- 이미 작성된 개요 내용은 절대 반복하지 말 것
+- 마지막 항목 다음부터 바로 이어서 쓸 것
+- 안내 문구 없이 개요 항목부터 바로 시작할 것
+- 마크다운 형식 그대로 유지
+
+현재까지 작성된 개요:
+${currentText}`;
+  } else if (isContinue) {
+    revisionPrompt = `아래 초안이 중간에 잘렸어. 잘린 지점 이후 내용만 이어서 써줘.
 규칙:
 - 이미 작성된 내용은 절대 반복하지 말 것
 - 마지막으로 완성된 문장 다음부터 바로 이어서 쓸 것
 - 쓰다 만 섹션이 있으면 그 섹션 내용부터 완성한 뒤 나머지 섹션을 써줄 것
-- 앞에 "이어서 작성합니다" 같은 안내 문구 없이 바로 본문으로 시작할 것
+- 안내 문구 없이 바로 본문으로 시작할 것
 - 마크다운 형식 그대로 유지
 
-현재까지 작성된 내용:
+현재까지 작성된 초안:
 ${currentText}`;
   } else if (genMode==='outline') {
     revisionPrompt = `다음은 현재 작성된 개요야:\n\n${currentText}\n\n수정 요청: ${msg}\n\n위 개요를 수정 요청에 맞게 고쳐서 전체 개요를 다시 출력해줘. 마크다운 형식 그대로.`;
@@ -1048,8 +1057,12 @@ ${currentText}`;
       renderPending = true;
       setTimeout(() => {
         renderPending = false;
-        disp.innerHTML = mdRender(revised);
-        box.scrollTop = 0;
+        const rendered = isContinue
+          ? mdRender(currentText.trimEnd() + '\n' + revised.trimStart())
+          : mdRender(revised);
+        disp.innerHTML = rendered;
+        if (isContinue) box.scrollTop = box.scrollHeight;
+        else box.scrollTop = 0;
       }, 120);
     };
 
