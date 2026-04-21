@@ -14,11 +14,12 @@ export async function POST(req) {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
       'anthropic-version': '2023-06-01',
+      'anthropic-beta': 'prompt-caching-2024-07-31',
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens,
-      system: '너는 크리마 콘텐츠 에디터야. 주어진 원고를 채널 특성에 맞게 변환해. 내용의 핵심은 그대로 유지하면서 형식과 문체만 조정해.',
+      system: [{ type: 'text', text: '너는 크리마 콘텐츠 에디터야. 주어진 원고를 채널 특성에 맞게 변환해. 내용의 핵심은 그대로 유지하면서 형식과 문체만 조정해.', cache_control: { type: 'ephemeral' } }],
       messages,
       stream: true,
     }),

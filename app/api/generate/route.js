@@ -41,11 +41,12 @@ export async function POST(req) {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
       'anthropic-version': '2023-06-01',
+      'anthropic-beta': 'prompt-caching-2024-07-31',
     },
     body: JSON.stringify({
       model,
       max_tokens,
-      system: SYS,
+      system: [{ type: 'text', text: SYS, cache_control: { type: 'ephemeral' } }],
       messages,
       stream: true,
     }),

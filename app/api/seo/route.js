@@ -16,7 +16,7 @@ export async function POST(req) {
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 200,
       system: '너는 SEO 전문가야. 요청받은 콘텐츠에 가장 적합한 SEO 키워드를 추천해줘.',
       messages: [{
